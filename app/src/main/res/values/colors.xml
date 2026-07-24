@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Tile / category colours -->
     <color name="LightPurple">#6E7097</color>
     <color name="LightRed">#F74D53</color>
     <color name="LightBlue">#10889E</color>
@@ -17,4 +19,19 @@
     <color name="Violet">#9400D3</color>
     <color name="Granite">#374345</color>
     <color name="Flamingo">#FC8EAC</color>
+
+    <!-- Pintley brand palette (from the logo artwork) -->
+    <color name="brand_orange">#FF7A1E</color>
+    <color name="brand_orange_deep">#FF5A2A</color>
+    <color name="brand_magenta">#FF2E86</color>
+    <color name="brand_pink">#FC4C8C</color>
+    <color name="brand_peach">#FFC08A</color>
+
+    <!-- Neutrals for the name-entry card -->
+    <color name="ink">#22222A</color>
+    <color name="ink_muted">#8A8A94</color>
+    <color name="card_white">#FFFFFFFF</color>
+    <color name="field_grey">#F1F1F5</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_24">#3DFFFFFF</color>
 </resources>

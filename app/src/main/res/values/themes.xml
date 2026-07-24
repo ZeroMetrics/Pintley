@@ -1,12 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@color/Granite</item>
-        <item name="colorControlNormal">@color/white</item> <!-- Color when not focused -->
-        <item name="colorControlActivated">@color/white</item> <!-- Color when focused -->
-        <item name="colorControlHighlight">@color/white</item> <!-- Color of the highlight when focused -->
-        <item name="android:editTextColor">@android:color/white</item>
-        <!-- Other style attributes -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme: the branded name-entry screen. -->
+    <style name="Theme.Pintley" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand_magenta</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor">@color/brand_orange</item>
+        <item name="android:navigationBarColor">@color/brand_magenta</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@color/brand_orange</item>
     </style>
+
+    <!-- The in-game screen: fullscreen, solid category-colour background. -->
+    <style name="Theme.Pintley.Game" parent="Theme.Pintley">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/LightPurple</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Rounded, filled "Start game" button. -->
+    <style name="Widget.Pintley.Button.Start" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/brand_magenta</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="cornerRadius">28dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="rippleColor">@color/white_24</item>
+    </style>
+
+    <!-- Ghost "Add player" button. -->
+    <style name="Widget.Pintley.Button.Add" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/brand_magenta</item>
+        <item name="android:textStyle">bold</item>
+        <item name="iconTint">@color/brand_magenta</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
 </resources>

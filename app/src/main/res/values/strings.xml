@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Pintly</string>
+    <string name="app_name">Pintley</string>
+    <string name="tagline">The party drinking game</string>
+
+    <!-- Name entry -->
+    <string name="players_heading">Who\'s playing?</string>
+    <string name="player_hint">Player name</string>
+    <string name="add_player">Add player</string>
+    <string name="remove_player">Remove player</string>
+    <string name="start_game">Start game</string>
+    <string name="need_one_name">Add at least one player to start</string>
+
+    <!-- Game -->
+    <string name="begin_hint">Tap the right of the screen to begin</string>
+    <string name="category_info">Category info</string>
+    <string name="completed">You completed Pintley?!</string>
+    <string name="got_it">Got it</string>
 </resources>
