@@ -15,4 +15,16 @@
     <string name="category_info">Category info</string>
     <string name="completed">You completed Pintley?!</string>
     <string name="got_it">Got it</string>
+    <string name="previous_card">Previous card</string>
+    <string name="next_card">Next card</string>
+
+    <!-- Manage players (in game) -->
+    <string name="manage_players">Manage players</string>
+    <string name="players_title">Players</string>
+    <string name="done">Done</string>
+    <string name="new_game">New game</string>
+    <string name="players_updated">Players updated — new names join from the next card</string>
+    <string name="new_game_confirm_title">Start a new game?</string>
+    <string name="new_game_confirm_message">This reshuffles every card and clears the history. Your players are kept.</string>
+    <string name="cancel">Cancel</string>
 </resources>
