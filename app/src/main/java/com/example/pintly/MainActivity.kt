@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
     private data class Tile(val message: String, val category: Category)
 
     /** Working copy of the deck. Prompts are removed as they are drawn (no repeats). */
-    private data class MutableCategory(val category: Category, val remaining: MutableList<String>)
+    private data class MutableCategory(
+        val category: Category,
+        val remaining: MutableList<String>,
+        val weight: Int
+    )
     private lateinit var deck: MutableList<MutableCategory>
 
     /** History of everything shown so far, so Back/Next can move through it. */
@@ -58,9 +62,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buildDeck() {
-        // distinct() drops exact duplicate prompts so no card is ever seen twice.
+        // Honour the player's category choices; distinct() drops exact duplicate
+        // prompts so no card is ever seen twice.
         deck = GameData.categories()
-            .map { MutableCategory(it, it.prompts.distinct().toMutableList()) }
+            .filter { CategorySettings.isEnabled(this, it.name) }
+            .map {
+                MutableCategory(
+                    it,
+                    it.prompts.distinct().toMutableList(),
+                    CategorySettings.weight(this, it.name, it.defaultWeight)
+                )
+            }
             .toMutableList()
     }
 
@@ -220,10 +232,10 @@ class MainActivity : AppCompatActivity() {
     private fun pickWeightedCategory(): MutableCategory? {
         val available = deck.filter { it.remaining.isNotEmpty() }
         if (available.isEmpty()) return null
-        val totalWeight = available.sumOf { it.category.weight }
+        val totalWeight = available.sumOf { it.weight }
         var roll = (0 until totalWeight).random()
         for (item in available) {
-            roll -= item.category.weight
+            roll -= item.weight
             if (roll < 0) return item
         }
         return available.last()

@@ -26,6 +26,9 @@ class NameInputActivity : AppCompatActivity() {
 
         binding.addButton.setOnClickListener { addPlayerField(focus = true) }
         binding.doneButton.setOnClickListener { startGame() }
+        binding.categoriesButton.setOnClickListener {
+            startActivity(Intent(this, CategorySettingsActivity::class.java))
+        }
     }
 
     private fun addPlayerField(focus: Boolean) {

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="10dp">
+
+    <View
+        android:id="@+id/color_swatch"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:background="@drawable/bg_swatch" />
+
+    <TextView
+        android:id="@+id/category_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/ink"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/category_percent"
+        android:layout_width="58dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_player_field"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="3"
+        android:textColor="@color/ink"
+        android:textSize="16sp"
+        android:paddingVertical="10dp"
+        android:autofillHints="" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="%"
+        android:textColor="@color/ink_muted"
+        android:textSize="16sp" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/category_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp" />
+
+</LinearLayout>
