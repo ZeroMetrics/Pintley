@@ -19,6 +19,7 @@
     <color name="Violet">#9400D3</color>
     <color name="Granite">#374345</color>
     <color name="Flamingo">#FC8EAC</color>
+    <color name="UltraDark">#12101E</color>
 
     <!-- Pintley brand palette (from the logo artwork) -->
     <color name="brand_orange">#FF7A1E</color>

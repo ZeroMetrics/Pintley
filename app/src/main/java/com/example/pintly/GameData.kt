@@ -26,7 +26,7 @@ object GameData {
         Category(
             name = "Regular",
             colorRes = R.color.LightPurple,
-            defaultWeight = 47,
+            defaultWeight = 46,
             info = "If no one is named, ask everyone the question",
             prompts = listOf(
                 "Drink if you've ever crashed your car",
@@ -527,6 +527,17 @@ object GameData {
                 "Would you rather be addicted to cocaine, or to gambling?",
                 "Would you rather fight like Mike Tyson, or Bruce Lee?",
                 "Would you rather serve in Heaven, or rule in Hell?"
+            )
+        ),
+        Category(
+            name = "Ultra Challenge",
+            colorRes = R.color.UltraDark,
+            defaultWeight = 1,
+            info = "The rarest card in the deck. A huge group moment — make it count",
+            prompts = listOf(
+                "ULTRA CHALLENGE! Everyone finish your drinks. Last to finish gives out a shot",
+                "ULTRA CHALLENGE! Waterfall — everyone drinks at once and can't stop until the person on their right does",
+                "ULTRA CHALLENGE! Player X, down your drink, then hand out 10 sips however you like"
             )
         )
     )
