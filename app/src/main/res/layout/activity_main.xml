@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/LightPurple"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/BackgroundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Existing layout elements go here -->
+
+        <RelativeLayout
+            android:id="@+id/tile_type_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tile_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/tile_type_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_toRightOf="@id/tile_type_text"
+                android:layout_marginLeft="4dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/infosymbol" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/tile_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/message_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Click to the Right to Begin"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:clickable="false"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/back_area"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2" />
+
+            <View
+                android:id="@+id/next_area"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+    
+
+</RelativeLayout>

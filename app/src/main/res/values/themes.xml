@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/Granite</item>
+        <item name="colorControlNormal">@color/white</item> <!-- Color when not focused -->
+        <item name="colorControlActivated">@color/white</item> <!-- Color when focused -->
+        <item name="colorControlHighlight">@color/white</item> <!-- Color of the highlight when focused -->
+        <item name="android:editTextColor">@android:color/white</item>
+        <!-- Other style attributes -->
+    </style>
+</resources>
