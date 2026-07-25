@@ -29,9 +29,9 @@ object SoundManager {
         pool = sp
     }
 
-    /** Very light click for buttons and advancing a card. */
+    /** Light but audible click for buttons and advancing a card. */
     fun playPop() {
-        pool?.play(popId, 0.35f, 0.35f, 0, 0, 1f)
+        pool?.play(popId, 0.8f, 0.8f, 0, 0, 1f)
     }
 
     /** Grander sound for the rare Ultra Challenge. */
