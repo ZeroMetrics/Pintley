@@ -11,8 +11,6 @@ Pintley is one of the first apps I ever built. I made the original version back 
 
 Years later I came back to it, this time with the help of AI, to fix the old bugs, modernise the whole project, redesign it, and finally add the features I'd always wanted. Then I decided to **open source it** so it's out there for anyone to play, learn from, or build on.
 
-The very first commit in this repo is the **untouched 2023 code**, exactly as I originally wrote it — so you can see the before, and everything that changed after.
-
 ## How to play
 
 - Add the names of everyone playing.
