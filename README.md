@@ -1,4 +1,5 @@
 # Pintley 🍺
+(Used AI a ton for this)
 
 **Pintley** is a party drinking game for Android. Add your players, then tap through an endless, weighted-random deck of prompts, dares, votes and challenges — each colour-coded by category, with your friends' names dropped straight into the action.
 
@@ -8,7 +9,7 @@
 
 Pintley is one of the first apps I ever built. I made the original version back in 2023 as a complete beginner — it worked, my friends and I actually played it, but the code was rough and there was a lot I never got around to.
 
-Years later I came back to it, this time with the help of AI ([Anthropic's Claude](https://claude.com/claude-code)), to fix the old bugs, modernise the whole project, redesign it, and finally add the features I'd always wanted. Then I decided to **open source it** so it's out there for anyone to play, learn from, or build on.
+Years later I came back to it, this time with the help of AI, to fix the old bugs, modernise the whole project, redesign it, and finally add the features I'd always wanted. Then I decided to **open source it** so it's out there for anyone to play, learn from, or build on.
 
 The very first commit in this repo is the **untouched 2023 code**, exactly as I originally wrote it — so you can see the before, and everything that changed after.
 
