@@ -22,11 +22,13 @@ class NameInputActivity : AppCompatActivity() {
         binding = ActivityNameinputBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        SoundManager.init(this)
         repeat(STARTING_FIELDS) { addPlayerField(focus = false) }
 
-        binding.addButton.setOnClickListener { addPlayerField(focus = true) }
-        binding.doneButton.setOnClickListener { startGame() }
+        binding.addButton.setOnClickListener { SoundManager.playPop(); addPlayerField(focus = true) }
+        binding.doneButton.setOnClickListener { SoundManager.playPop(); startGame() }
         binding.categoriesButton.setOnClickListener {
+            SoundManager.playPop()
             startActivity(Intent(this, CategorySettingsActivity::class.java))
         }
     }

@@ -22,9 +22,10 @@ class CategorySettingsActivity : AppCompatActivity() {
         binding = ActivityCategorySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        SoundManager.init(this)
         buildRows()
-        binding.saveButton.setOnClickListener { saveAndFinish() }
-        binding.resetButton.setOnClickListener { resetDefaults() }
+        binding.saveButton.setOnClickListener { SoundManager.playPop(); saveAndFinish() }
+        binding.resetButton.setOnClickListener { SoundManager.playPop(); resetDefaults() }
     }
 
     private fun buildRows() {

@@ -20,6 +20,10 @@
     <color name="Granite">#374345</color>
     <color name="Flamingo">#FC8EAC</color>
     <color name="UltraDark">#12101E</color>
+    <color name="ultra_red">#E01E37</color>
+    <color name="ultra_mid">#7A2E86</color>
+    <color name="ultra_blue">#1C6DD0</color>
+    <color name="ultra_flash">#FFF2C4</color>
 
     <!-- Pintley brand palette (from the logo artwork) -->
     <color name="brand_orange">#FF7A1E</color>

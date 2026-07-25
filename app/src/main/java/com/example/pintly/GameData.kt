@@ -200,7 +200,6 @@ object GameData {
                 "Player X, assign each eye colour 1, 2 or 3 drinks",
                 "Player X, take 6 sips from your glass, or 1 from your bare palm",
                 "Player X, refill your glass without using your hands",
-                "Player X and Player Y, competing toasts. Worst drinks 2, best gives 2",
                 "Player X, invent a catchphrase to say every time you drink",
                 "Player X, pick someone to do 20 push-ups",
                 "Player X, pick someone to do 30 squats",
@@ -540,7 +539,7 @@ object GameData {
             prompts = listOf(
                 "Player X and Player Y, sing a duet of a song the group picks. Group votes for the best — loser downs their drink",
                 "Player X and Player Y, hold an invisible chair against the wall. First to drop downs a full drink",
-                "Player X and Player Y, make competing speeches on a subject the group picks. Group votes — loser downs their drink"
+                "Player X and Player Y, make competing toasts on a subject the group picks. Group votes — loser downs their drink"
             )
         )
     )

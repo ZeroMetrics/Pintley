@@ -112,4 +112,14 @@
         android:scaleType="centerInside"
         android:contentDescription="@string/manage_players" />
 
+    <!-- Full-screen flash for the Ultra Challenge reveal (transparent to touch) -->
+    <View
+        android:id="@+id/flash_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ultra_flash"
+        android:alpha="0"
+        android:clickable="false"
+        android:focusable="false" />
+
 </FrameLayout>

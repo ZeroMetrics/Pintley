@@ -52,12 +52,14 @@ class MainActivity : AppCompatActivity() {
     private val players = mutableListOf<String>()
 
     private var currentColor = Color.TRANSPARENT
+    private var backgroundIsGradient = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableImmersiveMode()
+        SoundManager.init(this)
 
         @Suppress("DEPRECATION")
         players.addAll(intent.getStringArrayListExtra("names") ?: arrayListOf())
@@ -67,8 +69,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.nextArea.setOnClickListener { onNext() }
         binding.backArea.setOnClickListener { onBack() }
-        binding.tileTypeLayout.setOnClickListener { showCategoryInfo() }
-        binding.playersButton.setOnClickListener { showPlayersDialog() }
+        binding.tileTypeLayout.setOnClickListener { SoundManager.playPop(); showCategoryInfo() }
+        binding.playersButton.setOnClickListener { SoundManager.playPop(); showPlayersDialog() }
     }
 
     private fun buildDeck() {
@@ -91,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         historyIndex = -1
         currentColor = ContextCompat.getColor(this, R.color.LightPurple)
         binding.BackgroundLayout.setBackgroundColor(currentColor)
+        backgroundIsGradient = false
         binding.tileTypeText.text = ""
         binding.tileTypeIcon.visibility = View.GONE
         binding.messageText.text = getString(R.string.begin_hint)
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         // If we have stepped back, move forward through existing history first.
         if (historyIndex < history.lastIndex) {
+            SoundManager.playPop()
             historyIndex++
             display(history[historyIndex])
             return
@@ -111,11 +115,15 @@ class MainActivity : AppCompatActivity() {
 
         val category = pickNextCategory()
         if (category == null) {
+            SoundManager.playPop()
             binding.tileTypeText.text = ""
             binding.tileTypeIcon.visibility = View.GONE
             binding.messageText.text = getString(R.string.completed)
             return
         }
+
+        // Ultra plays its own grander sound in the entrance animation.
+        if (!category.category.isUltra) SoundManager.playPop()
 
         val rawPrompt = category.remaining.removeAt(category.remaining.indices.random())
         val tile = Tile(substituteNames(rawPrompt), category.category)
@@ -126,6 +134,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onBack() {
         if (historyIndex > 0) {
+            SoundManager.playPop()
             historyIndex--
             display(history[historyIndex])
         }
@@ -136,17 +145,19 @@ class MainActivity : AppCompatActivity() {
         binding.tileTypeText.text = tile.category.name
         binding.messageText.text = tile.message
 
-        val target = ContextCompat.getColor(this, tile.category.colorRes)
         if (tile.category.isUltra) {
-            animateUltraEntrance(target)
+            animateUltraEntrance()
         } else {
-            animateNormalEntrance(target)
+            animateNormalEntrance(ContextCompat.getColor(this, tile.category.colorRes))
         }
-        currentColor = target
     }
 
     private fun animateNormalEntrance(target: Int) {
-        if (target != currentColor) {
+        if (backgroundIsGradient) {
+            // Coming off an Ultra card's gradient — snap to the solid colour.
+            binding.BackgroundLayout.setBackgroundColor(target)
+            backgroundIsGradient = false
+        } else if (target != currentColor) {
             ObjectAnimator.ofObject(
                 binding.BackgroundLayout,
                 "backgroundColor",
@@ -160,6 +171,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.BackgroundLayout.setBackgroundColor(target)
         }
+        currentColor = target
+
         // Gentle fade-in for the new prompt.
         binding.messageText.apply {
             scaleX = 1f
@@ -170,22 +183,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** A big, unmistakable reveal so an Ultra Challenge feels like an event. */
-    private fun animateUltraEntrance(target: Int) {
+    private fun animateUltraEntrance() {
         vibrate()
+        SoundManager.playUltra()
 
-        val flash = Color.parseColor("#FFD54A") // gold flash
-        binding.BackgroundLayout.setBackgroundColor(flash)
-        ObjectAnimator.ofObject(
-            binding.BackgroundLayout,
-            "backgroundColor",
-            ArgbEvaluator(),
-            flash,
-            target
-        ).apply {
-            duration = 700
-            start()
+        // The only card with a gradient background — red to blue.
+        binding.BackgroundLayout.setBackgroundResource(R.drawable.bg_ultra_gradient)
+        backgroundIsGradient = true
+        currentColor = ContextCompat.getColor(this, R.color.ultra_blue)
+
+        // Screen flash.
+        binding.flashOverlay.apply {
+            alpha = 0.9f
+            animate().alpha(0f).setDuration(650).start()
         }
 
+        // Prompt pops in with an overshoot.
         binding.messageText.apply {
             alpha = 0f
             scaleX = 0.5f
@@ -246,6 +259,7 @@ class MainActivity : AppCompatActivity() {
         if (players.isEmpty()) addPlayerRow(container, "")
 
         dialogBinding.dialogAddButton.setOnClickListener {
+            SoundManager.playPop()
             addPlayerRow(container, "", focus = true)
         }
 
