@@ -48,6 +48,22 @@ Most tiles need none of these, but a line can start with one or more tags:
 | `[requires: Power]` | The tile only appears **after** a Power has already come up. Stops cards like "All Powers are out of play" showing when nobody has one. List several (`[requires: Rule, Power]`) to mean "any one of these". |
 | `[clears: Power]` | The tile **removes** that category from the *What's in play* panel — use it on cards that cancel lasting effects. |
 | `[transient]` | A one-off. Keeps the tile **out** of the *What's in play* panel (use for cards that just move things around or make people drink now). |
+| `[ghosts: 2]` | Gives 2 ghosts to every player named on the card. Also `[ghosts: clear]` (named player loses theirs) and `[ghosts: clearall]`. |
+
+### Ghost-adjusted drinks
+
+Wrap a number in `{braces}` when it's a number of **drinks or sips the named player takes** — the app adds that player's ghosts to it automatically, so `drink {2}` shows as `drink 4` for someone with 2 ghosts.
+
+```
+Player X, drink {2}
+Player X, tell an embarrassing story or drink {3}
+```
+
+Only tag it when **the player named on the card is the one drinking**. Leave the number plain if:
+
+- it isn't drinks — `pick someone to do 20 push-ups`, `immune to the next 5 cards`, `sing 30 seconds`
+- someone else drinks it — `give out 2 drinks`, `if anyone laughs, they drink 2`
+- **it's shots** — ghosts never affect shots
 
 ```
 [requires: Power][clears: Power] All Powers are out of play

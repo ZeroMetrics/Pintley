@@ -16,7 +16,9 @@ data class Prompt(
     val text: String,
     val requires: List<String> = emptyList(),
     val clears: List<String> = emptyList(),
-    val transient: Boolean = false
+    val transient: Boolean = false,
+    /** "1"/"2"/"3" to give ghosts to the named players, "clear", or "clearall". */
+    val ghosts: String? = null
 )
 
 /**
@@ -82,7 +84,7 @@ object GameData {
         )
     }
 
-    private val DIRECTIVE = Regex("""^\[(\w+)\s*:?\s*([^\]]*)]\s*""", RegexOption.IGNORE_CASE)
+    private val DIRECTIVE = Regex("""^\[(\w+)\s*:?\s*([^\]]*)\]\s*""", RegexOption.IGNORE_CASE)
 
     private fun loadPrompts(context: Context, asset: String): List<Prompt> = try {
         context.assets.open(asset).bufferedReader().useLines { lines ->
@@ -100,21 +102,22 @@ object GameData {
         val requires = mutableListOf<String>()
         val clears = mutableListOf<String>()
         var transient = false
+        var ghosts: String? = null
 
         while (true) {
             val match = DIRECTIVE.find(rest) ?: break
-            val values = match.groupValues[2]
-                .split(",")
-                .map { it.trim() }
-                .filter { it.isNotEmpty() }
+            val raw = match.groupValues[2].trim()
+            val values = raw.split(",").map { it.trim() }.filter { it.isNotEmpty() }
             when (match.groupValues[1].lowercase()) {
                 "requires" -> requires.addAll(values)
                 "clears" -> clears.addAll(values)
                 "transient" -> transient = true
-                else -> return Prompt(rest, requires, clears, transient) // unknown: leave as text
+                "ghosts" -> ghosts = raw
+                // Unknown directive: leave the line untouched rather than mangle it.
+                else -> return Prompt(rest, requires, clears, transient, ghosts)
             }
             rest = rest.substring(match.range.last + 1).trim()
         }
-        return Prompt(rest.trim(), requires, clears, transient)
+        return Prompt(rest.trim(), requires, clears, transient, ghosts)
     }
 }

@@ -9,10 +9,13 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.OvershootInterpolator
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -62,6 +65,15 @@ class MainActivity : AppCompatActivity() {
     /** Live player list — can be edited mid-game without resetting the deck. */
     private val players = mutableListOf<String>()
 
+    /** How many ghosts each player is carrying. Each one adds +1 to their drinks. */
+    private val ghostCounts = mutableMapOf<String, Int>()
+
+    /** A resolved prompt: the text with real names in it, plus who was named. */
+    private data class Resolved(val text: String, val named: List<String>)
+
+    // Both braces escaped — Android's ICU regex engine rejects a bare closing brace.
+    private val GHOST_TOKEN = Regex("""\{(\d+)\}""")
+
     private var currentColor = Color.TRANSPARENT
     private var backgroundIsGradient = false
     private var bgAnimator: ObjectAnimator? = null
@@ -105,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         history.clear()
         historyIndex = -1
         seenCategories.clear()
+        ghostCounts.clear()
+        updateGhostTally()
         bgAnimator?.cancel()
         bgAnimator = null
         currentColor = ContextCompat.getColor(this, R.color.LightPurple)
@@ -147,9 +161,13 @@ class MainActivity : AppCompatActivity() {
         // cards can't be unlocked by the very card being drawn.
         seenCategories.add(category.category.name)
 
-        val tile = Tile(
-            substituteNames(prompt.text), category.category, prompt.clears, prompt.transient
-        )
+        val resolved = substituteNames(prompt.text)
+        // Ghost maths uses the counts as they stand *before* this card's own effect,
+        // so a card that grants ghosts doesn't also inflate its own numbers.
+        val text = applyGhostMath(resolved.text, resolved.named.firstOrNull())
+        applyGhostEffect(prompt, resolved.named)
+
+        val tile = Tile(text, category.category, prompt.clears, prompt.transient)
         history.add(tile)
         historyIndex = history.lastIndex
         display(tile, isNew = true)
@@ -305,10 +323,63 @@ class MainActivity : AppCompatActivity() {
         return active.groupBy({ it.first }, { it.second })
     }
 
+    /** A "Name  -  n  +" row so counts can be corrected by hand. */
+    private fun addGhostRow(container: LinearLayout, player: String) {
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val label = TextView(this).apply {
+            text = player
+            textSize = 15f
+            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.ink))
+            layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
+        }
+        val count = TextView(this).apply {
+            text = (ghostCounts[player] ?: 0).toString()
+            textSize = 16f
+            gravity = Gravity.CENTER
+            minWidth = dp(36)
+            setTypeface(typeface, Typeface.BOLD)
+            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.Spectral))
+        }
+        fun stepper(symbol: String, delta: Int) = TextView(this).apply {
+            text = symbol
+            textSize = 22f
+            gravity = Gravity.CENTER
+            minWidth = dp(44)
+            setPadding(0, dp(2), 0, dp(6))
+            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.brand_magenta))
+            setOnClickListener {
+                val next = ((ghostCounts[player] ?: 0) + delta).coerceAtLeast(0)
+                if (next == 0) ghostCounts.remove(player) else ghostCounts[player] = next
+                count.text = next.toString()
+                updateGhostTally()
+            }
+        }
+        row.addView(label)
+        row.addView(stepper("−", -1))
+        row.addView(count)
+        row.addView(stepper("+", +1))
+        container.addView(row)
+    }
+
     private fun showInPlayDialog() {
         val dialogBinding = DialogInplayBinding.inflate(layoutInflater)
         val container = dialogBinding.inPlayContainer
         val effects = activeEffects()
+
+        // Ghost counts, adjustable by hand for the cards the app can't read.
+        if (players.isNotEmpty()) {
+            container.addView(TextView(this).apply {
+                text = getString(R.string.ghosts_heading)
+                textSize = 17f
+                setTypeface(typeface, Typeface.BOLD)
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.Spectral))
+                setPadding(0, dp(6), 0, dp(2))
+            })
+            players.forEach { addGhostRow(container, it) }
+        }
 
         if (effects.isEmpty()) {
             container.addView(TextView(this).apply {
@@ -440,17 +511,73 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** Replace "Player X/Y/Z" with real names, shuffled fresh for each draw. */
-    private fun substituteNames(message: String): String {
-        if (players.isEmpty()) return message
+    private fun substituteNames(message: String): Resolved {
+        if (players.isEmpty()) return Resolved(message, emptyList())
         val shuffled = players.shuffled()
         val placeholders = listOf("Player X", "Player Y", "Player Z")
+        val named = mutableListOf<String>()
         var result = message
         placeholders.forEachIndexed { index, placeholder ->
             if (result.contains(placeholder)) {
-                result = result.replace(placeholder, shuffled[index % shuffled.size])
+                val name = shuffled[index % shuffled.size]
+                result = result.replace(placeholder, name)
+                named.add(name)
             }
         }
-        return result
+        return Resolved(result, named)
+    }
+
+    /**
+     * Numbers written as {2} in a tile are drinks the named player takes, so their
+     * ghosts get added: 2 drinks with 2 ghosts shows as 4. Untagged numbers (push-ups,
+     * seconds, drinks handed to other people) are deliberately left alone.
+     */
+    private fun applyGhostMath(text: String, player: String?): String {
+        val bonus = player?.let { ghostCounts[it] } ?: 0
+        return GHOST_TOKEN.replace(text) { m ->
+            (m.groupValues[1].toInt() + bonus).toString()
+        }
+    }
+
+    /** Apply a card's [Prompt.ghosts] effect to the players it named. */
+    private fun applyGhostEffect(prompt: Prompt, named: List<String>) {
+        // distinct(): with few players the same name can fill both X and Y, and
+        // nobody should be haunted twice by one card.
+        val targets = named.distinct()
+        when (val effect = prompt.ghosts?.lowercase()) {
+            null -> return
+            "clearall" -> ghostCounts.clear()
+            "clear" -> targets.forEach { ghostCounts.remove(it) }
+            "transfer" -> if (targets.size >= 2) {
+                val from = targets[0]
+                val held = ghostCounts[from] ?: 0
+                if (held > 0) {
+                    setGhosts(from, held - 1)
+                    setGhosts(targets[1], (ghostCounts[targets[1]] ?: 0) + 1)
+                }
+            }
+            "swap" -> if (targets.size >= 2) {
+                val (a, b) = targets[0] to targets[1]
+                val countA = ghostCounts[a] ?: 0
+                val countB = ghostCounts[b] ?: 0
+                setGhosts(a, countB)
+                setGhosts(b, countA)
+            }
+            else -> effect.toIntOrNull()?.let { amount ->
+                targets.forEach { setGhosts(it, (ghostCounts[it] ?: 0) + amount) }
+            }
+        }
+        updateGhostTally()
+    }
+
+    private fun setGhosts(player: String, count: Int) {
+        if (count <= 0) ghostCounts.remove(player) else ghostCounts[player] = count
+    }
+
+    private fun updateGhostTally() {
+        val haunted = ghostCounts.filterValues { it > 0 }
+        binding.ghostTally.text = if (haunted.isEmpty()) "" else
+            haunted.entries.joinToString("   ") { "👻 ${it.key} ${it.value}" }
     }
 
     private fun enableImmersiveMode() {

@@ -41,4 +41,5 @@
     <string name="in_play_title">What\'s in play</string>
     <string name="in_play_empty">Nothing in play yet.\n\nRules, powers, weaknesses, specials and ghosts will show up here as they come out.</string>
     <string name="close">Close</string>
+    <string name="ghosts_heading">Ghost count</string>
 </resources>

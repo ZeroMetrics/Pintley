@@ -6,36 +6,42 @@
 # Ghosts haunt a player: each ghost adds +1 to every drink that player takes.
 # They stack up and stay until something banishes them.
 #
+# The app keeps the running count, so every card here must name exactly who is
+# affected. Avoid "give a ghost to another player" or "whoever is least haunted"
+# - the app can't tell who that is, and the count would drift out of sync.
+#
+# [ghosts: N] gives N ghosts to each player named on the card.
+# [ghosts: clear] the named player loses theirs. [ghosts: clearall] wipes everyone.
+# [ghosts: transfer] moves one ghost from the first named player to the second.
+# [ghosts: swap] swaps the two named players' counts.
+#
 # Balance: for every 1 banishing card there should be roughly
 # 3 one-ghost cards, 2 two-ghost cards and 1 three-ghost card.
-#
-# Lines starting with [requires: Category] only appear once that category has
-# already come up in the game - so you never banish ghosts nobody has.
 
 # --- Gain 1 ghost ---
-Player X, you have found a ghost
-Player X, something followed you home. Take a ghost
-Player X and Player Y, you both take a ghost
-Whoever is least haunted takes a ghost
-Everyone point at who seems most haunted. They take a ghost
-Player X, name a player. They take a ghost, you take one too
+[ghosts: 1] Player X, you have found a ghost
+[ghosts: 1] Player X, something followed you home. Take a ghost
+[ghosts: 1] Player X and Player Y, you both take a ghost
+[ghosts: 1] Player X, you heard footsteps upstairs. Take a ghost
+[ghosts: 1] Player X, the mirror blinked. Take a ghost
+[ghosts: 1] Player X, you said its name out loud. Take a ghost
 
 # --- Gain 2 ghosts ---
-Player X, you are haunted. Take 2 ghosts
-Player X, you slept in a graveyard. Take 2 ghosts
-Player X, the seance worked. Take 2 ghosts
-Last player to drink takes 2 ghosts
+[ghosts: 2] Player X, you are haunted. Take 2 ghosts
+[ghosts: 2] Player X, you slept in a graveyard. Take 2 ghosts
+[ghosts: 2] Player X, the seance worked. Take 2 ghosts
+[ghosts: 2] Player X, you opened the wrong door. Take 2 ghosts
 
 # --- Gain 3 ghosts (the big ones) ---
-Player X, the whole graveyard followed you home. Take 3 ghosts
-Player X, you are cursed. Take 3 ghosts
+[ghosts: 3] Player X, the whole graveyard followed you home. Take 3 ghosts
+[ghosts: 3] Player X, you are cursed. Take 3 ghosts
 
 # --- Banishing ---
-[requires: Ghosts][clears: Ghosts] Sunrise! Every ghost is banished from the game
-[requires: Ghosts][transient] Player X, you have been cleansed. Lose all your ghosts
+[requires: Ghosts][clears: Ghosts][ghosts: clearall] Sunrise! Every ghost is banished from the game
+[requires: Ghosts][transient][ghosts: clear] Player X, you have been cleansed. Lose all your ghosts
 
 # --- Moving them around / making them hurt ---
-[requires: Ghosts][transient] Player X, pass one of your ghosts to another player
-[requires: Ghosts][transient] Player X, swap all your ghosts with Player Y
+[requires: Ghosts][transient][ghosts: transfer] Player X, pass a ghost to Player Y
+[requires: Ghosts][transient][ghosts: swap] Player X, swap ghosts with Player Y
 [requires: Ghosts][transient] Player X, drink your ghost count
 [requires: Ghosts][transient] Everyone drinks their ghost count

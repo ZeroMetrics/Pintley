@@ -3,9 +3,9 @@
 # Use "Player X", "Player Y", "Player Z" - they become random player names.
 # Keep prompts short so they read at a glance on screen.
 
-Player X, give advice to someone here without naming them. Refuse? Drink 2
-Player X, name your biggest turn-off or drink 3
-Player X, you control the music. Play a bad song and drink 1
+Player X, give advice to someone here without naming them. Refuse? Drink {2}
+Player X, name your biggest turn-off or drink {3}
+Player X, you control the music. Play a bad song and drink {1}
 FREEZE! Player X, toss a coin. If it lands in a cup, they down it
 FREEZE! Whoever has the least left, finish your drink
 Least drunk player: the group decides how much you drink
@@ -14,7 +14,7 @@ Player X, name something you've never done. Anyone who has, drinks
 Last to show a photo of another player on their phone drinks 4
 Player X, pick a word. Go round rhyming it — first to stall drinks 3
 Player X, pour a shot into someone's drink
-Player X, give someone a heartfelt compliment. The group decides if you drink 3
+Player X, give someone a heartfelt compliment. The group decides if you drink {3}
 Player X, two truths and a lie. If nobody spots the lie, they all drink 2
 Long arm pint! Player X, finish your drink without bending your elbow
 Everyone plays rock paper scissors with the person on your left. Overall winner gives out 5
@@ -23,35 +23,35 @@ Player X, imitate Player Y — including their drinking
 Take a group selfie. Anyone who refuses drinks 3
 Hands on the table. Last to lift theirs gives out 5 sips
 Player X, take a shot like a hero or hand out two like a villain
-Player X, take one item of clothing from each player. Refuse? Drink 3
+Player X, take one item of clothing from each player. Refuse? Drink {3}
 First to recite the alphabet backwards gives out 5 drinks
 Phones in the middle. First to get a notification drinks 3
-Player X, let the person on your left draft a text from your phone. Don't send it? Drink 5
+Player X, let the person on your left draft a text from your phone. Don't send it? Drink {5}
 Drink if you've ever drunk in a park, you menace
 'On my ship is...' Add an item and go round adding more. Break the list, drink 1 per item
 Silence! Drink in alphabetical order of names. Mess up and restart
 Player X, talk on one topic for a minute with no repeated words. Slip up? Drink
 Drink for every drug you've ever tried. We're judging you
 Player X, name an object in the room. Last to touch it drinks 3
-Player X, tell an embarrassing story or drink 3
+Player X, tell an embarrassing story or drink {3}
 First to come up with an inspirational quote gives out 4 sips
-Player X, stand on one leg until told otherwise. Drop it and drink 1
-Player X, show off some athleticism (push-ups?) or drink 5
+Player X, stand on one leg until told otherwise. Drop it and drink {1}
+Player X, show off some athleticism (push-ups?) or drink {5}
 Player X names a band. Player Y names 5 of their songs, or you both drink 5
 Player X, staring contest with someone. Loser drinks 3
 Player X, dare Player Y. Refuse and drink 4
-Player X, sing 30 seconds of karaoke or drink 2
+Player X, sing 30 seconds of karaoke or drink {2}
 Stand up! Last player to do so drinks 2
 STOP! Player X, what did Player Y just say? Wrong and drink 2
 Hide and seek! Player X seeks. First found drinks 2, last found gives 2
 Player X, do a 30-second interpretive dance of whatever Player Y says
 Player X picks a word. Go round rhyming it — first to fail drinks 3
-Player X, sing your national anthem. Not passionate enough? Drink 3
+Player X, sing your national anthem. Not passionate enough? Drink {3}
 Player X hums a tune for 5 seconds. Player Y can't name it? Both drink 4
 On 3, hold up some fingers. Anyone matching another player drinks 2
-Player X, convince the group why you shouldn't drink 5 right now
+Player X, convince the group why you shouldn't drink {5} right now
 Player X, assign each eye colour 1, 2 or 3 drinks
-Player X, take 6 sips from your glass, or 1 from your bare palm
+Player X, take {6} sips from your glass, or {1} from your bare palm
 Player X, refill your glass without using your hands
 Player X, invent a catchphrase to say every time you drink
 Player X, pick someone to do 20 push-ups
@@ -61,7 +61,7 @@ Everyone, read out your last social media post. Refuse? Drink 2
 Go round naming bars and clubs you've been to. Stall and drink 2
 Player X, act out a movie scene in silence. First to guess it gives out 3
 Player X, tell a joke. If anyone laughs, they drink 2
-Player X, tell a story. The group decides if you drink 3
+Player X, tell a story. The group decides if you drink {3}
 Player X, pour a shot into two other players' drinks
 Player X, reveal your biggest phobia or take a shot
 Player X, pour Player Y's next drink
@@ -84,4 +84,4 @@ Player X, tell us about the time you nearly shat yourself. Chicken out? Take a s
 Player X, drink your body count (cap it at 10, we don't have all night)
 Player X, let someone edit your Tinder or take 2 shots. No Tinder? Give out a shot
 Player X, be Player Y's cheerleader every time they drink
-Player X, tell an offensive joke. Not offensive enough? Drink 4
+Player X, tell an offensive joke. Not offensive enough? Drink {4}

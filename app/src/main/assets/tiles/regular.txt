@@ -5,16 +5,16 @@
 
 Drink if you've ever crashed your car
 Drink for every book you've read this year. Read none? Down your drink, illiterate
-Player X, share a lie you told the group that they believed. Can't? Drink 2
+Player X, share a lie you told the group that they believed. Can't? Drink {2}
 Drink if you've slept with someone here. Don't explain
 Least drunk player, drink 3
 Everyone drinks
 Sip for every country you've visited
-Player X, older players drink 2. If you're the oldest, drink 3, creep
-Player X, younger players drink 2. If you're the youngest, drink 3 and blink twice for help
+Player X, older players drink 2. If you're the oldest, drink {3}, creep
+Player X, younger players drink 2. If you're the youngest, drink {3} and blink twice for help
 Player X, the group asks you one question. Refuse to answer? Take a shot
 Player X, name a category (e.g. cars). First to stall for 5 seconds drinks 3
-Player X, drink 2
+Player X, drink {2}
 All women drink 1. No women here? Everyone drinks 2 in shame
 Person with the biggest feet drinks 2
 Player X, anyone whose name starts with the same letter drinks 1 — you included
@@ -50,7 +50,7 @@ Whoever knows the fewest people here drinks 2
 The host drinks. Round of applause, please
 Whoever lives furthest away drinks 2
 Whoever poured their drink longest ago, finish it
-Player X, take 3 sips of Player Y's drink
+Player X, take {3} sips of Player Y's drink
 Drink once for each blue eye in the room
 Papers please! Drink 1 if you don't have ID on you
 Under 5'6 or bearded? Drink 3 like a true dwarf. Both? Drink 6
@@ -60,10 +60,10 @@ Whoever's phone this is, give out 5 drinks for supporting the app :)
 Anyone wearing a watch drinks 1
 Everyone with a Samsung drinks 1
 Drink 2 if you shaved today
-Player X, name the song and artist playing right now. Wrong? Drink 3
+Player X, name the song and artist playing right now. Wrong? Drink {3}
 Everyone who drank on the last card, drink again
 Sip for each year you studied after school
-Player X, give 3 drinks to someone less drunk than you. No one? Down 6
+Player X, give 3 drinks to someone less drunk than you. No one? Down {6}
 Player X, drink 3 if you're wearing something you bought this month
 Player X, pick someone you'd take on a road trip. You both drink 1
 Drink 3 if you believe in ghosts
@@ -90,7 +90,7 @@ Bodybuilders drink 3, you can take it
 Player X, touch your nose with your tongue to give out 2
 Player X, drink for every social media app on your phone
 Drink 1 if you've fantasised about someone here. Don't explain
-Player X, drink 2 if you've lied on your CV
+Player X, drink {2} if you've lied on your CV
 Drink 1 if you arrived alone. Drink 2 if you'll leave alone
 Drink 2 if you know what League of Legends is
 Player X, name a TV show. Anyone who's seen it drinks 1
