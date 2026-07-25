@@ -35,4 +35,5 @@
     <string name="reset_defaults">Reset to defaults</string>
     <string name="categories_total">Total: %1$d%%</string>
     <string name="enable_one_category">Enable at least one category</string>
+    <string name="rare">Rare · ~0.5%</string>
 </resources>

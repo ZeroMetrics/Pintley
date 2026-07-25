@@ -5,8 +5,12 @@ import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -18,8 +22,14 @@ import com.example.pintly.databinding.DialogPlayersBinding
 import com.example.pintly.databinding.ItemPlayerBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+
+    private companion object {
+        /** Chance of an Ultra Challenge on any given card (~once per game). */
+        const val ULTRA_CHANCE = 0.005
+    }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -99,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        val category = pickWeightedCategory()
+        val category = pickNextCategory()
         if (category == null) {
             binding.tileTypeText.text = ""
             binding.tileTypeIcon.visibility = View.GONE
@@ -127,6 +137,15 @@ class MainActivity : AppCompatActivity() {
         binding.messageText.text = tile.message
 
         val target = ContextCompat.getColor(this, tile.category.colorRes)
+        if (tile.category.isUltra) {
+            animateUltraEntrance(target)
+        } else {
+            animateNormalEntrance(target)
+        }
+        currentColor = target
+    }
+
+    private fun animateNormalEntrance(target: Int) {
         if (target != currentColor) {
             ObjectAnimator.ofObject(
                 binding.BackgroundLayout,
@@ -141,11 +160,64 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.BackgroundLayout.setBackgroundColor(target)
         }
-        currentColor = target
-
         // Gentle fade-in for the new prompt.
-        binding.messageText.alpha = 0f
-        binding.messageText.animate().alpha(1f).setDuration(260).start()
+        binding.messageText.apply {
+            scaleX = 1f
+            scaleY = 1f
+            alpha = 0f
+            animate().alpha(1f).setDuration(260).start()
+        }
+    }
+
+    /** A big, unmistakable reveal so an Ultra Challenge feels like an event. */
+    private fun animateUltraEntrance(target: Int) {
+        vibrate()
+
+        val flash = Color.parseColor("#FFD54A") // gold flash
+        binding.BackgroundLayout.setBackgroundColor(flash)
+        ObjectAnimator.ofObject(
+            binding.BackgroundLayout,
+            "backgroundColor",
+            ArgbEvaluator(),
+            flash,
+            target
+        ).apply {
+            duration = 700
+            start()
+        }
+
+        binding.messageText.apply {
+            alpha = 0f
+            scaleX = 0.5f
+            scaleY = 0.5f
+            animate().alpha(1f).scaleX(1f).scaleY(1f)
+                .setInterpolator(OvershootInterpolator())
+                .setDuration(520).start()
+        }
+        binding.tileTypeLayout.apply {
+            scaleX = 0.7f
+            scaleY = 0.7f
+            animate().scaleX(1f).scaleY(1f).setDuration(420).start()
+        }
+    }
+
+    private fun vibrate() {
+        try {
+            val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                (getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                getSystemService(VIBRATOR_SERVICE) as Vibrator
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                @Suppress("DEPRECATION")
+                vibrator.vibrate(150)
+            }
+        } catch (_: Exception) {
+            // Device may have no vibrator — ignore.
+        }
     }
 
     private fun fadeHintsAway() {
@@ -228,9 +300,16 @@ class MainActivity : AppCompatActivity() {
 
     // ---- Helpers ------------------------------------------------------------
 
-    /** Weighted pick among categories that still have prompts left. */
+    /** Roll for a rare Ultra Challenge first, otherwise a normal weighted card. */
+    private fun pickNextCategory(): MutableCategory? {
+        val ultra = deck.firstOrNull { it.category.isUltra && it.remaining.isNotEmpty() }
+        if (ultra != null && Random.nextDouble() < ULTRA_CHANCE) return ultra
+        return pickWeightedCategory()
+    }
+
+    /** Weighted pick among ordinary (non-Ultra) categories that still have prompts left. */
     private fun pickWeightedCategory(): MutableCategory? {
-        val available = deck.filter { it.remaining.isNotEmpty() }
+        val available = deck.filter { it.remaining.isNotEmpty() && !it.category.isUltra }
         if (available.isEmpty()) return null
         val totalWeight = available.sumOf { it.weight }
         var roll = (0 until totalWeight).random()

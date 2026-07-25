@@ -12,7 +12,9 @@ data class Category(
     @ColorRes val colorRes: Int,
     val defaultWeight: Int,
     val info: String,
-    val prompts: List<String>
+    val prompts: List<String>,
+    /** Ultra categories are drawn on a separate rare roll, not the weighted pool. */
+    val isUltra: Boolean = false
 )
 
 /**
@@ -26,7 +28,7 @@ object GameData {
         Category(
             name = "Regular",
             colorRes = R.color.LightPurple,
-            defaultWeight = 46,
+            defaultWeight = 47,
             info = "If no one is named, ask everyone the question",
             prompts = listOf(
                 "Drink if you've ever crashed your car",
@@ -533,11 +535,12 @@ object GameData {
             name = "Ultra Challenge",
             colorRes = R.color.UltraDark,
             defaultWeight = 1,
-            info = "The rarest card in the deck. A huge group moment — make it count",
+            isUltra = true,
+            info = "The rarest card of all. Two players go head to head — the loser downs their drink",
             prompts = listOf(
-                "ULTRA CHALLENGE! Everyone finish your drinks. Last to finish gives out a shot",
-                "ULTRA CHALLENGE! Waterfall — everyone drinks at once and can't stop until the person on their right does",
-                "ULTRA CHALLENGE! Player X, down your drink, then hand out 10 sips however you like"
+                "Player X and Player Y, sing a duet of a song the group picks. Group votes for the best — loser downs their drink",
+                "Player X and Player Y, hold an invisible chair against the wall. First to drop downs a full drink",
+                "Player X and Player Y, make competing speeches on a subject the group picks. Group votes — loser downs their drink"
             )
         )
     )

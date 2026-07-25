@@ -22,6 +22,17 @@
         android:textSize="17sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/rare_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/rare"
+        android:textColor="@color/ink_muted"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/category_percent"
         android:layout_width="58dp"
@@ -36,6 +47,7 @@
         android:autofillHints="" />
 
     <TextView
+        android:id="@+id/percent_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
