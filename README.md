@@ -5,6 +5,14 @@
 
 <p align="center"><em>The party drinking game.</em></p>
 
+## 📥 Download & play
+
+**[⬇️ Download the latest Pintley APK](https://github.com/ZeroMetrics/Pintley/releases/latest/download/Pintley.apk)** (Android)
+
+To install: open the downloaded file on your phone and allow installation from unknown sources when prompted (Android blocks sideloaded apps by default — this is normal for apps outside the Play Store). Then just open Pintley and add your players.
+
+You can also grab it from the [Releases page](https://github.com/ZeroMetrics/Pintley/releases/latest).
+
 ## The story
 
 Pintley is one of the first apps I ever built. I made the original version back in 2023 as a complete beginner — it worked, my friends and I actually played it, but the code was rough and there was a lot I never got around to.

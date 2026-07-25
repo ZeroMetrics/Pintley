@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Signing keystores and build APKs (never commit)
+*.jks
+*.keystore
+keystore.properties
+*.apk
