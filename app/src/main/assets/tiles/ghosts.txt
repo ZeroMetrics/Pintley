@@ -1,0 +1,24 @@
+# Pintley tiles - Ghosts
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+#
+# Ghosts haunt a player: each ghost adds +1 to every drink that player takes.
+# Maximum 3 ghosts per player.
+
+Player X, you are haunted. Take 2 ghosts
+Player X, you have found a ghost
+Player X, something followed you home. Take a ghost
+Player X and Player Y, you both take a ghost
+Whoever is least haunted takes a ghost
+Everyone point at who seems most haunted. They take a ghost
+Player X, pass one of your ghosts to another player
+Player X, swap all your ghosts with Player Y
+Player X, drink your ghost count
+Everyone drinks their ghost count
+Most haunted player, hand out 3 drinks before you drink your ghosts
+Player X, name a player. They take a ghost, you take one too
+Player X, you have been cleansed. Lose all your ghosts
+Player X, exorcise one ghost from any player
+Sunrise! Every ghost is banished from the game
+Player X is the Lich King. Move any ghost between players whenever you like

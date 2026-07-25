@@ -16,6 +16,7 @@ app/src/main/assets/tiles/
 ├─ wild.txt
 ├─ democracy.txt
 ├─ power.txt
+├─ ghosts.txt
 ├─ elimination.txt
 ├─ would_you_rather.txt
 └─ ultra_challenge.txt

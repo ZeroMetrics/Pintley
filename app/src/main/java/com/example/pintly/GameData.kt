@@ -42,7 +42,7 @@ object GameData {
     )
 
     private val META = listOf(
-        CategoryMeta("Regular", R.color.LightPurple, 47, "If no one is named, ask everyone the question", "tiles/regular.txt"),
+        CategoryMeta("Regular", R.color.LightPurple, 43, "If no one is named, ask everyone the question", "tiles/regular.txt"),
         CategoryMeta("Action", R.color.LightRed, 18, "This is a task for whoever is named", "tiles/action.txt"),
         CategoryMeta("Rule", R.color.Gold, 4, "Rules affect everyone and stay in place until stated otherwise", "tiles/rule.txt"),
         CategoryMeta("Weakness", R.color.SicklyGreen, 4, "This is a penalty that a single player holds until stated otherwise", "tiles/weakness.txt"),
@@ -50,6 +50,7 @@ object GameData {
         CategoryMeta("Wild", R.color.ForestGreen, 1, "These are up to you, have some fun", "tiles/wild.txt"),
         CategoryMeta("Democracy", R.color.LightBlue, 13, "Everyone close your eyes and point to who you think it is. The minority drinks", "tiles/democracy.txt"),
         CategoryMeta("Power", R.color.CrimsonRed, 3, "This is a benefit that a single player holds until stated otherwise", "tiles/power.txt"),
+        CategoryMeta("Ghosts", R.color.Spectral, 4, "Each ghost adds +1 to every drink that player takes. Maximum 3 ghosts each", "tiles/ghosts.txt"),
         CategoryMeta("Elimination", R.color.Granite, 2, "Remove something from play. Feel free to do this freely, not just on these cards", "tiles/elimination.txt"),
         CategoryMeta("Would You Rather", R.color.Flamingo, 5, "Everyone close your eyes. Thumbs up for option 1, thumbs down for option 2. The minority drinks", "tiles/would_you_rather.txt"),
         CategoryMeta("Ultra Challenge", R.color.UltraDark, 1, "The rarest card of all. Two players go head to head — the loser downs their drink", "tiles/ultra_challenge.txt", isUltra = true)
