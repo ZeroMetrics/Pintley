@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private var currentColor = Color.TRANSPARENT
     private var backgroundIsGradient = false
+    private var bgAnimator: ObjectAnimator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +92,8 @@ class MainActivity : AppCompatActivity() {
     private fun resetToStart() {
         history.clear()
         historyIndex = -1
+        bgAnimator?.cancel()
+        bgAnimator = null
         currentColor = ContextCompat.getColor(this, R.color.LightPurple)
         binding.BackgroundLayout.setBackgroundColor(currentColor)
         backgroundIsGradient = false
@@ -109,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         if (historyIndex < history.lastIndex) {
             SoundManager.playPop()
             historyIndex++
-            display(history[historyIndex])
+            display(history[historyIndex], isNew = false)
             return
         }
 
@@ -122,43 +125,50 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Ultra plays its own grander sound in the entrance animation.
+        // Ultra plays its own grander sound in the reveal.
         if (!category.category.isUltra) SoundManager.playPop()
 
         val rawPrompt = category.remaining.removeAt(category.remaining.indices.random())
         val tile = Tile(substituteNames(rawPrompt), category.category)
         history.add(tile)
         historyIndex = history.lastIndex
-        display(tile)
+        display(tile, isNew = true)
     }
 
     private fun onBack() {
         if (historyIndex > 0) {
             SoundManager.playPop()
             historyIndex--
-            display(history[historyIndex])
+            display(history[historyIndex], isNew = false)
         }
     }
 
-    private fun display(tile: Tile) {
+    /**
+     * @param isNew true for a freshly drawn card (plays the full reveal), false when
+     * revisiting a card via Back/Next (just shows it, no sound/flash re-fire).
+     */
+    private fun display(tile: Tile, isNew: Boolean) {
         binding.tileTypeIcon.visibility = View.VISIBLE
         binding.tileTypeText.text = tile.category.name
         binding.messageText.text = tile.message
 
         if (tile.category.isUltra) {
-            animateUltraEntrance()
+            showUltraBackground(isNew)
         } else {
-            animateNormalEntrance(ContextCompat.getColor(this, tile.category.colorRes))
+            showNormalBackground(ContextCompat.getColor(this, tile.category.colorRes))
         }
     }
 
-    private fun animateNormalEntrance(target: Int) {
-        if (backgroundIsGradient) {
-            // Coming off an Ultra card's gradient — snap to the solid colour.
+    private fun showNormalBackground(target: Int) {
+        // Cancel any in-flight crossfade so it can't overwrite the new background.
+        bgAnimator?.cancel()
+        bgAnimator = null
+
+        if (backgroundIsGradient || target == currentColor) {
             binding.BackgroundLayout.setBackgroundColor(target)
             backgroundIsGradient = false
-        } else if (target != currentColor) {
-            ObjectAnimator.ofObject(
+        } else {
+            bgAnimator = ObjectAnimator.ofObject(
                 binding.BackgroundLayout,
                 "backgroundColor",
                 ArgbEvaluator(),
@@ -168,12 +178,10 @@ class MainActivity : AppCompatActivity() {
                 duration = 320
                 start()
             }
-        } else {
-            binding.BackgroundLayout.setBackgroundColor(target)
         }
         currentColor = target
 
-        // Gentle fade-in for the new prompt.
+        binding.tileTypeLayout.apply { scaleX = 1f; scaleY = 1f }
         binding.messageText.apply {
             scaleX = 1f
             scaleY = 1f
@@ -182,35 +190,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** A big, unmistakable reveal so an Ultra Challenge feels like an event. */
-    private fun animateUltraEntrance() {
-        vibrate()
-        SoundManager.playUltra()
-
-        // The only card with a gradient background — red to blue.
+    /** Show the Ultra gradient. [isNew] adds the full reveal (flash, sound, haptic, pop-in). */
+    private fun showUltraBackground(isNew: Boolean) {
+        bgAnimator?.cancel()
+        bgAnimator = null
         binding.BackgroundLayout.setBackgroundResource(R.drawable.bg_ultra_gradient)
         backgroundIsGradient = true
         currentColor = ContextCompat.getColor(this, R.color.ultra_blue)
 
-        // Screen flash.
-        binding.flashOverlay.apply {
-            alpha = 0.9f
-            animate().alpha(0f).setDuration(650).start()
-        }
-
-        // Prompt pops in with an overshoot.
-        binding.messageText.apply {
-            alpha = 0f
-            scaleX = 0.5f
-            scaleY = 0.5f
-            animate().alpha(1f).scaleX(1f).scaleY(1f)
-                .setInterpolator(OvershootInterpolator())
-                .setDuration(520).start()
-        }
-        binding.tileTypeLayout.apply {
-            scaleX = 0.7f
-            scaleY = 0.7f
-            animate().scaleX(1f).scaleY(1f).setDuration(420).start()
+        if (isNew) {
+            vibrate()
+            SoundManager.playUltra()
+            binding.flashOverlay.apply {
+                alpha = 0.9f
+                animate().alpha(0f).setDuration(650).start()
+            }
+            binding.messageText.apply {
+                alpha = 0f
+                scaleX = 0.5f
+                scaleY = 0.5f
+                animate().alpha(1f).scaleX(1f).scaleY(1f)
+                    .setInterpolator(OvershootInterpolator())
+                    .setDuration(520).start()
+            }
+            binding.tileTypeLayout.apply {
+                scaleX = 0.7f
+                scaleY = 0.7f
+                animate().scaleX(1f).scaleY(1f).setDuration(420).start()
+            }
+        } else {
+            binding.tileTypeLayout.apply { scaleX = 1f; scaleY = 1f }
+            binding.messageText.apply {
+                scaleX = 1f
+                scaleY = 1f
+                alpha = 0f
+                animate().alpha(1f).setDuration(260).start()
+            }
         }
     }
 
