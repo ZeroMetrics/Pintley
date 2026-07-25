@@ -2,8 +2,12 @@
 # One prompt per line. Blank lines and lines starting with # are ignored.
 # Use "Player X", "Player Y", "Player Z" - they become random player names.
 # Keep prompts short so they read at a glance on screen.
+#
+# Lines starting with [requires: Category] only appear once that category has
+# already come up in the game - so you never remove something nobody has yet.
+# List several categories to mean "any one of these".
 
-All Rules are out of play
-All Powers are out of play
-All Weaknesses are out of play
-All Rules, Powers and Weaknesses are out of play
+[requires: Rule][clears: Rule] All Rules are out of play
+[requires: Power][clears: Power] All Powers are out of play
+[requires: Weakness][clears: Weakness] All Weaknesses are out of play
+[requires: Rule, Power, Weakness][clears: Rule, Power, Weakness] All Rules, Powers and Weaknesses are out of play

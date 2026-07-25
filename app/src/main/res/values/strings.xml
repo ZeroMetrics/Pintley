@@ -36,4 +36,9 @@
     <string name="categories_total">Total: %1$d%%</string>
     <string name="enable_one_category">Enable at least one category</string>
     <string name="rare">Rare · ~0.5%</string>
+
+    <!-- What's in play -->
+    <string name="in_play_title">What\'s in play</string>
+    <string name="in_play_empty">Nothing in play yet.\n\nRules, powers, weaknesses, specials and ghosts will show up here as they come out.</string>
+    <string name="close">Close</string>
 </resources>

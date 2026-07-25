@@ -2,6 +2,9 @@
 # One prompt per line. Blank lines and lines starting with # are ignored.
 # Use "Player X", "Player Y", "Player Z" - they become random player names.
 # Keep prompts short so they read at a glance on screen.
+#
+# Lines starting with [requires: Category] only appear once that category has
+# already come up in the game.
 
 Player X, pick a friend. Whenever you drink, they drink too
 Player X, you're the boss. Punish any 'workplace misconduct' with drinks
@@ -14,3 +17,4 @@ Player X is a cymbal monkey — on every clap, everyone (you too) drinks 1
 Player X, make someone laugh and they drink 1
 Player X is immune to all rules
 Player X is immune to the next 5 cards. Player Y drinks them instead
+[requires: Ghosts] Player X is the Lich King. Move any ghost between players whenever you like

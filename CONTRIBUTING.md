@@ -39,6 +39,21 @@ Example — adding a line to `action.txt`:
 Player X, do your best celebrity impression. Group votes — funniest gives out 3
 ```
 
+### Optional tags
+
+Most tiles need none of these, but a line can start with one or more tags:
+
+| Tag | What it does |
+| --- | --- |
+| `[requires: Power]` | The tile only appears **after** a Power has already come up. Stops cards like "All Powers are out of play" showing when nobody has one. List several (`[requires: Rule, Power]`) to mean "any one of these". |
+| `[clears: Power]` | The tile **removes** that category from the *What's in play* panel — use it on cards that cancel lasting effects. |
+| `[transient]` | A one-off. Keeps the tile **out** of the *What's in play* panel (use for cards that just move things around or make people drink now). |
+
+```
+[requires: Power][clears: Power] All Powers are out of play
+[requires: Ghosts][transient] Everyone drinks their ghost count
+```
+
 ### Sending your tiles in
 
 **If you're comfortable with GitHub:** fork the repo, edit the relevant file(s), and open a Pull Request. Mention roughly which categories you added to.

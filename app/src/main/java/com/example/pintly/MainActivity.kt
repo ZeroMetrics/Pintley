@@ -3,6 +3,7 @@ package com.example.pintly
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -12,12 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.pintly.databinding.ActivityMainBinding
+import com.example.pintly.databinding.DialogInplayBinding
 import com.example.pintly.databinding.DialogPlayersBinding
 import com.example.pintly.databinding.ItemPlayerBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -34,15 +37,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     /** A single drawn tile: the resolved prompt plus the category it came from. */
-    private data class Tile(val message: String, val category: Category)
+    private data class Tile(
+        val message: String,
+        val category: Category,
+        val clears: List<String> = emptyList(),
+        val transient: Boolean = false
+    )
 
     /** Working copy of the deck. Prompts are removed as they are drawn (no repeats). */
     private data class MutableCategory(
         val category: Category,
-        val remaining: MutableList<String>,
+        val remaining: MutableList<Prompt>,
         val weight: Int
     )
     private lateinit var deck: MutableList<MutableCategory>
+
+    /** Categories that have already come up this game, for [Prompt.requires] gating. */
+    private val seenCategories = mutableSetOf<String>()
 
     /** History of everything shown so far, so Back/Next can move through it. */
     private val history = mutableListOf<Tile>()
@@ -72,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         binding.backArea.setOnClickListener { onBack() }
         binding.tileTypeLayout.setOnClickListener { SoundManager.playPop(); showCategoryInfo() }
         binding.playersButton.setOnClickListener { SoundManager.playPop(); showPlayersDialog() }
+        binding.inPlayButton.setOnClickListener { SoundManager.playPop(); showInPlayDialog() }
     }
 
     private fun buildDeck() {
@@ -92,6 +104,7 @@ class MainActivity : AppCompatActivity() {
     private fun resetToStart() {
         history.clear()
         historyIndex = -1
+        seenCategories.clear()
         bgAnimator?.cancel()
         bgAnimator = null
         currentColor = ContextCompat.getColor(this, R.color.LightPurple)
@@ -128,8 +141,15 @@ class MainActivity : AppCompatActivity() {
         // Ultra plays its own grander sound in the reveal.
         if (!category.category.isUltra) SoundManager.playPop()
 
-        val rawPrompt = category.remaining.removeAt(category.remaining.indices.random())
-        val tile = Tile(substituteNames(rawPrompt), category.category)
+        val prompt = availablePrompts(category).random()
+        category.remaining.remove(prompt)
+        // Mark the category seen only after choosing, so a category's own gated
+        // cards can't be unlocked by the very card being drawn.
+        seenCategories.add(category.category.name)
+
+        val tile = Tile(
+            substituteNames(prompt.text), category.category, prompt.clears, prompt.transient
+        )
         history.add(tile)
         historyIndex = history.lastIndex
         display(tile, isNew = true)
@@ -264,6 +284,67 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    // ---- What's in play -----------------------------------------------------
+
+    /**
+     * Walks the cards played so far and works out which lasting effects are still
+     * active — adding persistent cards, and dropping whatever an elimination cleared.
+     */
+    private fun activeEffects(): Map<Category, List<String>> {
+        val active = mutableListOf<Pair<Category, String>>()
+        for (i in 0..historyIndex) {
+            val tile = history[i]
+            if (tile.clears.isNotEmpty()) {
+                active.removeAll { (cat, _) -> tile.clears.contains(cat.name) }
+                continue
+            }
+            if (tile.category.isPersistent && !tile.transient) {
+                active.add(tile.category to tile.message)
+            }
+        }
+        return active.groupBy({ it.first }, { it.second })
+    }
+
+    private fun showInPlayDialog() {
+        val dialogBinding = DialogInplayBinding.inflate(layoutInflater)
+        val container = dialogBinding.inPlayContainer
+        val effects = activeEffects()
+
+        if (effects.isEmpty()) {
+            container.addView(TextView(this).apply {
+                text = getString(R.string.in_play_empty)
+                textSize = 15f
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.ink_muted))
+            })
+        } else {
+            effects.forEach { (category, cards) ->
+                container.addView(TextView(this).apply {
+                    text = category.name
+                    textSize = 17f
+                    setTypeface(typeface, Typeface.BOLD)
+                    setTextColor(ContextCompat.getColor(this@MainActivity, category.colorRes))
+                    setPadding(0, dp(14), 0, dp(4))
+                })
+                cards.forEach { card ->
+                    container.addView(TextView(this).apply {
+                        text = "•  $card"
+                        textSize = 15f
+                        setTextColor(ContextCompat.getColor(this@MainActivity, R.color.ink))
+                        setPadding(0, dp(3), 0, dp(3))
+                    })
+                }
+            }
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.in_play_title)
+            .setView(dialogBinding.root)
+            .setPositiveButton(R.string.close, null)
+            .show()
+    }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+
     // ---- Manage players (mid-game) ------------------------------------------
 
     private fun showPlayersDialog() {
@@ -329,16 +410,25 @@ class MainActivity : AppCompatActivity() {
 
     // ---- Helpers ------------------------------------------------------------
 
+    /**
+     * Prompts in [mc] that can be drawn right now — i.e. ungated, or gated on a
+     * category that has already come up this game.
+     */
+    private fun availablePrompts(mc: MutableCategory): List<Prompt> =
+        mc.remaining.filter { p ->
+            p.requires.isEmpty() || p.requires.any { seenCategories.contains(it) }
+        }
+
     /** Roll for a rare Ultra Challenge first, otherwise a normal weighted card. */
     private fun pickNextCategory(): MutableCategory? {
-        val ultra = deck.firstOrNull { it.category.isUltra && it.remaining.isNotEmpty() }
+        val ultra = deck.firstOrNull { it.category.isUltra && availablePrompts(it).isNotEmpty() }
         if (ultra != null && Random.nextDouble() < ULTRA_CHANCE) return ultra
         return pickWeightedCategory()
     }
 
-    /** Weighted pick among ordinary (non-Ultra) categories that still have prompts left. */
+    /** Weighted pick among ordinary (non-Ultra) categories with a drawable prompt. */
     private fun pickWeightedCategory(): MutableCategory? {
-        val available = deck.filter { it.remaining.isNotEmpty() && !it.category.isUltra }
+        val available = deck.filter { !it.category.isUltra && availablePrompts(it).isNotEmpty() }
         if (available.isEmpty()) return null
         val totalWeight = available.sumOf { it.weight }
         var roll = (0 until totalWeight).random()

@@ -4,21 +4,38 @@
 # Keep prompts short so they read at a glance on screen.
 #
 # Ghosts haunt a player: each ghost adds +1 to every drink that player takes.
-# Maximum 3 ghosts per player.
+# They stack up and stay until something banishes them.
+#
+# Balance: for every 1 banishing card there should be roughly
+# 3 one-ghost cards, 2 two-ghost cards and 1 three-ghost card.
+#
+# Lines starting with [requires: Category] only appear once that category has
+# already come up in the game - so you never banish ghosts nobody has.
 
-Player X, you are haunted. Take 2 ghosts
+# --- Gain 1 ghost ---
 Player X, you have found a ghost
 Player X, something followed you home. Take a ghost
 Player X and Player Y, you both take a ghost
 Whoever is least haunted takes a ghost
 Everyone point at who seems most haunted. They take a ghost
-Player X, pass one of your ghosts to another player
-Player X, swap all your ghosts with Player Y
-Player X, drink your ghost count
-Everyone drinks their ghost count
-Most haunted player, hand out 3 drinks before you drink your ghosts
 Player X, name a player. They take a ghost, you take one too
-Player X, you have been cleansed. Lose all your ghosts
-Player X, exorcise one ghost from any player
-Sunrise! Every ghost is banished from the game
-Player X is the Lich King. Move any ghost between players whenever you like
+
+# --- Gain 2 ghosts ---
+Player X, you are haunted. Take 2 ghosts
+Player X, you slept in a graveyard. Take 2 ghosts
+Player X, the seance worked. Take 2 ghosts
+Last player to drink takes 2 ghosts
+
+# --- Gain 3 ghosts (the big ones) ---
+Player X, the whole graveyard followed you home. Take 3 ghosts
+Player X, you are cursed. Take 3 ghosts
+
+# --- Banishing ---
+[requires: Ghosts][clears: Ghosts] Sunrise! Every ghost is banished from the game
+[requires: Ghosts][transient] Player X, you have been cleansed. Lose all your ghosts
+
+# --- Moving them around / making them hurt ---
+[requires: Ghosts][transient] Player X, pass one of your ghosts to another player
+[requires: Ghosts][transient] Player X, swap all your ghosts with Player Y
+[requires: Ghosts][transient] Player X, drink your ghost count
+[requires: Ghosts][transient] Everyone drinks their ghost count
