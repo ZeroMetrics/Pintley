@@ -1,0 +1,112 @@
+# Pintley tiles - Democracy
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+Who is the best dressed?
+Who is the worst driver?
+Who is the biggest lightweight?
+Who is the biggest alcoholic?
+Who here is the least drunk?
+Who here is the most fun?
+Who here is the strongest?
+Who will be the most successful in life?
+Who here is the most privileged?
+Who is the biggest social butterfly?
+Who would you rather be stranded on a desert island with?
+Who would you call to help hide a body?
+Who would you rather wake up as?
+Who would make the best politician?
+Who is the worst cook?
+Who is most likely to ditch plans last minute?
+Who is going to throw up first?
+Who is going to bed soonest?
+Who is worst at handling spice?
+Who is the least dominant?
+Who is the horniest?
+Who is wearing the most expensive clothes?
+Who is the most sensitive?
+Who has the worst taste in music?
+Who has the best taste in music?
+Who was the most popular at school?
+Who has the highest body count?
+Who has the weakest drink?
+Who has the strongest drink?
+Who is the most athletic?
+Who is the best gamer?
+Who has the strangest hobby?
+Who has the best taste in TV and film?
+Who is the least hygienic?
+Who is the worst loser?
+Who is the least employable?
+Who do you trust the most?
+Who would you want on your side in a fight?
+Who is most likely to complain?
+Who is the biggest bullshitter?
+Who is the most gullible?
+Who is the biggest nerd?
+Who is the best on a night out?
+Who is the most dramatic?
+Who is least likely to get into a club?
+Who is most likely to 'forget' to buy a round?
+Who would win in a fight, Player X or Player Y?
+Who is the loudest?
+Who is the most confrontational?
+Who has the hardest job?
+Who is the most persuasive?
+Who is the best tipper?
+Who is most likely to complain at a restaurant?
+Who is the most adventurous?
+Who would you least like to live with?
+Who is most likely to fall asleep first?
+Who is the worst in bed?
+Who would make the best warrior?
+Who would make the best king?
+Who is the most promiscuous?
+Who is the life of the party?
+Who would you want in a zombie apocalypse?
+Who would you want as a business partner?
+Who gives the best advice?
+Who gives the worst advice?
+Who knows the most about pop culture?
+Who is the most cultured?
+Who is the best at keeping a secret?
+Who is the biggest risk taker?
+Who is the most aggressive?
+Who will be the first to start a family?
+Who is the drunkest right now?
+Who would perform best in the military?
+Who is the most practical?
+Who is the coolest?
+Who is the group's main organiser?
+Who is your role model?
+Who would you want negotiating your release from a hostage situation?
+Who would you most want investigating your murder?
+Whose facts do you trust without checking?
+Who do you want beside you in a horror movie?
+Who is your chosen heist partner?
+Who is your chosen prison friend?
+Who would do best in prison?
+Who is most likely to be guilty of a crime?
+Who here will people write books about?
+Who is most likely to join an extremist group?
+Who is most likely to pull off a revolution?
+Who should really speak less?
+Who should really speak more?
+Who do you trust most to speak for you?
+Who do you trust least to speak for you?
+Who is the happiest right now?
+Who is the best storyteller?
+Who is the most passionate?
+Who do you trust least to plan a holiday?
+Who is always causing drama?
+Who is the most resilient?
+Who is the most optimistic?
+Who is the meanest?
+Who would make the best supervillain?
+Who has the best relationship with their parents?
+Who is the shot-caller?
+Who is the worst swimmer?
+Who is the parent of the group?
+Who would go furthest to help you?
+Who is the most elitist?

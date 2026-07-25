@@ -1,0 +1,25 @@
+# Pintley tiles - Weakness
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+Player X, say anyone's name and you drink. They get to write their name on your skin
+Player X, call everyone by their full name. Fail and drink 1
+Player X, guard a small item. If anyone nabs it, drink 4
+Player X is the drinks bitch — make a drink for anyone who asks
+Player X, speak only in questions. Make a statement and drink 1
+Player X, no conjunctions (and, but, while...). Slip up and drink 1
+Player X, all your drinks are doubled. Sorry
+Player X, you may only drink using your index fingers. No spilling!
+Player X, swap drinks with Player Y
+Player X, you're an aristocrat — pinky up when you drink, or drink again
+Player X is on trial — only whisper to your lawyers (left and right) to speak
+Player X, keep up an impression of your choice. Break it and drink 2
+Player X, end every sentence with 'is that okay?!' or drink 1
+Player X, drink with your weaker hand. Slip up and drink 1
+Player X, raise your hand to speak. Forget and drink 1
+Player X, keep a straight face. Laugh or smile and drink 1
+Player X, speak only in outdated slang, ya dig
+Player X, say the opposite of what you mean
+Player X, speak only in Ye Olde English. Slip up and drink 1
+Player X, answer everything truthfully, as if you were Player Y

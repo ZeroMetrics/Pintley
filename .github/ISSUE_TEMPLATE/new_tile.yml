@@ -1,0 +1,50 @@
+name: New tile suggestion
+description: Suggest one or more new tiles (prompts) for Pintley
+title: "[Tiles] "
+labels: ["tiles"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting tiles! Add **one prompt per line** below.
+        Use **Player X / Player Y / Player Z** wherever a random player's name should go.
+        Keep them short so they read at a glance on a phone.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category do these belong to?
+      options:
+        - Regular
+        - Action
+        - Rule
+        - Weakness
+        - Special
+        - Wild
+        - Democracy
+        - Power
+        - Elimination
+        - Would You Rather
+        - Ultra Challenge
+        - New category / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: tiles
+    attributes:
+      label: Your tile(s)
+      description: One prompt per line.
+      placeholder: |
+        Player X, name a country. Anyone who's been there drinks 1
+        Everyone with wet hair drinks 2
+    validations:
+      required: true
+  - type: checkboxes
+    id: guidelines
+    attributes:
+      label: Quick checks
+      options:
+        - label: These are short enough to read at a glance
+          required: true
+        - label: Nothing hateful, and nothing that targets or endangers real people
+          required: true

@@ -1,0 +1,11 @@
+# Pintley tiles - Special
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+Player X, once, reflect a set of drinks back at whoever gives them to you
+Player X, pass one of your weaknesses to another player
+Player X, throw your hands up. Last to copy drinks 3
+Player X, thumb on the table. Last to copy drinks 3
+Player X, swap the name on any active card
+Player X, bring one retired rule back into play

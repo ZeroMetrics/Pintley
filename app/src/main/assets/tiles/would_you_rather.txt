@@ -1,0 +1,75 @@
+# Pintley tiles - Would You Rather
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+Would you rather live agelessly for 100 years, or get a billion dollars?
+Would you rather breathe underwater, or survive any fall?
+Would you rather get a life sentence, or the death penalty?
+Would you rather only eat sweet food, or only spicy food?
+Would you rather live without social media, or without streaming?
+Would you rather have free travel forever, or a supercar?
+Would you rather be the richest person alive but hated, or broke but loved?
+Would you rather have street smarts, or book smarts?
+Would you rather have permanent summer, or permanent winter?
+Would you rather be reincarnated with your memories but no skills, or skills but no memories?
+Would you rather have immortality, or reincarnation with your memory intact?
+Would you rather eat the same meal forever, or only ever drink water?
+Would you rather lift cars but look weak, or look like a Greek god but be averagely strong?
+Would you rather have a million dollars, or a 50% shot at 20 million?
+Would you rather lose your hearing, or your sight?
+Would you rather die to save 10 strangers, or let them die and live?
+Would you rather have an amazing house, or amazing holidays?
+Would you rather cover for a cheating friend, or snitch on them?
+Would you rather be the strongest person alive, or the best at chess?
+Would you rather be a perfect artist, or a perfect mathematician?
+Would you rather have only one pet, or only one child?
+Would you rather have the hottest partner, or the smartest?
+Would you rather enter witness protection and never see your family, or have 100 kids right now?
+Would you rather control water, or fire?
+Would you rather be permanently bald, or have werewolf hair growth?
+Would you rather only watch movies, or only listen to them?
+Would you rather always be an hour late, or two hours early?
+Would you rather read people's thoughts, or their memories?
+Would you rather never hear new music, or never replay old music?
+Would you rather find true love but never work, or have a great career but never find love?
+Would you rather live in the Sahara, or Antarctica?
+Would you rather code like a genius, or play an instrument like one?
+Would you rather be ghosted by your crush, or told outright they're not into you?
+Would you rather be unable to shower, or unable to brush your teeth?
+Would you rather know how you'll die, or when?
+Would you rather have a personal chef, or a personal driver?
+Would you rather have two extra arms, or a third eye?
+Would you rather never break anything, or never lose anything?
+Would you rather be smart but relied on by everyone, or clueless but completely looked after?
+Would you rather choose where you go for dinner, or let someone else?
+Would you rather have a great memory, or be a comedic genius?
+Would you rather date someone similar to you, or your opposite?
+Would you rather a world without war, or without poverty?
+Would you rather live underwater, or in space?
+Would you rather never need sleep, or never get sick?
+Would you rather talk to animals, or speak every language fluently?
+Would you rather move objects with your mind, or have super speed?
+Would you rather be immune to alcohol, or to recreational drugs?
+Would you rather have everyone respect you, or desire you?
+Would you rather be a dog, or a cat?
+Would you rather have a photographic memory, or forget anything at will?
+Would you rather win the lottery, or find true love?
+Would you rather be a lightweight, or a heavyweight drinker?
+Would you rather a world ruled by passion, or by logic?
+Would you rather own a 5-star hotel, or a 3-Michelin-star restaurant?
+Would you rather swim 10 metres through 50°C water, or crawl 10 metres over hot coals?
+Would you rather be the best fighter in the world, or the fastest reader?
+Would you rather sleep with Player X, or Player Y?
+Would you rather earn double, or work half as much for the same pay?
+Would you rather live now as a regular person, or 100 years ago as royalty?
+Would you rather be known as a prostitute, or a fraudster who targets the elderly?
+Would you rather start a business empire with Player X, or Player Y?
+Would you rather be Prime Minister, or their most trusted advisor?
+Would you rather travel 40 years into the past, or the future?
+Would you rather have sex in the shower, or the back of a car?
+Would you rather kill one person to save three, or spare them and let three die?
+Would you rather be wrongly believed to have cheated, or cheat and get away with it?
+Would you rather be addicted to cocaine, or to gambling?
+Would you rather fight like Mike Tyson, or Bruce Lee?
+Would you rather serve in Heaven, or rule in Hell?

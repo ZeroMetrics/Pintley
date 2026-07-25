@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     private fun buildDeck() {
         // Honour the player's category choices; distinct() drops exact duplicate
         // prompts so no card is ever seen twice.
-        deck = GameData.categories()
+        deck = GameData.categories(this)
             .filter { CategorySettings.isEnabled(this, it.name) }
             .map {
                 MutableCategory(

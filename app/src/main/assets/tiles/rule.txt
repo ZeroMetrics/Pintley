@@ -1,0 +1,16 @@
+# Pintley tiles - Rule
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+No eye contact. Catch someone's eye and you both drink 1
+On eye contact, first to wink makes the other drink 1
+Player X, rename everyone. Use the wrong name and drink 1
+Player X, ban a word and give it a replacement. Slip up and drink 1
+No crossing legs or touching hair. Caught? Drink 1
+Left-hand rule! Hold your drink with your non-dominant hand. Slip up and drink 1
+Everyone must call each player by a made-up name. Slip up and drink 1
+Player X, Player Y and Player Z are a team. The majority decides how they split drinks
+Everyone's Question Master. Answer anyone's question and drink 1
+Everyone swaps names. Use an old name and drink 1
+Whenever you drink, the person on your left or right drinks with you

@@ -1,0 +1,8 @@
+# Pintley tiles - Ultra Challenge
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+Player X and Player Y, sing a duet of a song the group picks. Group votes for the best — loser downs their drink
+Player X and Player Y, hold an invisible chair against the wall. First to drop downs a full drink
+Player X and Player Y, make competing toasts on a subject the group picks. Group votes — loser downs their drink

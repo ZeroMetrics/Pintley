@@ -1,0 +1,116 @@
+# Pintley tiles - Regular
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+
+Drink if you've ever crashed your car
+Drink for every book you've read this year. Read none? Down your drink, illiterate
+Player X, share a lie you told the group that they believed. Can't? Drink 2
+Drink if you've slept with someone here. Don't explain
+Least drunk player, drink 3
+Everyone drinks
+Sip for every country you've visited
+Player X, older players drink 2. If you're the oldest, drink 3, creep
+Player X, younger players drink 2. If you're the youngest, drink 3 and blink twice for help
+Player X, the group asks you one question. Refuse to answer? Take a shot
+Player X, name a category (e.g. cars). First to stall for 5 seconds drinks 3
+Player X, drink 2
+All women drink 1. No women here? Everyone drinks 2 in shame
+Person with the biggest feet drinks 2
+Player X, anyone whose name starts with the same letter drinks 1 — you included
+Player X, give out 2 drinks
+Person closest to the door drinks 2
+Everyone drinks 2. Ice in your drink? Drink 4, precious
+Anyone in a relationship drinks 2
+Drink if you haven't hit the gym this month. Double if you pay for a membership
+Drink for each streaming service you pay for
+Drink if you fancy someone here. Don't explain
+Under 6 foot? Drink 2 in shame, manlet
+Drink 3 if you've ever sent food back at a restaurant
+Player X, give out a drink for each of your first names
+BOOM! Player X, down your drink!
+Drink 3 if you've made an excuse not to drink tonight
+Drink 2 if you can't sleep after sex. Virgins drink 3 in sadness
+Women, drink your bra size (A=1, B=2, C=3...)
+Drink 2 if you've said 'I love you' in the last 24 hours
+Drink 3 if you've ever painted your nails
+Men, 1 drink per inch. Please lie, for God's sake
+Drink for each black item you're wearing. Very boring
+Player X, give 3 sips to someone smaller than you. No one smaller? Drink them yourself
+Drink 3 if you have great hair
+Drink 2 if you have short hair
+Give out 3 drinks if you have blond hair
+Most educated player drinks 2, know-it-all
+Drink 2 if you've ever shoplifted
+Drink 1 if you can play an instrument
+Drink 1 if you drove here
+Drink 1 if you've been on a bus this month
+Last person who drank, drink that amount again
+Whoever knows the fewest people here drinks 2
+The host drinks. Round of applause, please
+Whoever lives furthest away drinks 2
+Whoever poured their drink longest ago, finish it
+Player X, take 3 sips of Player Y's drink
+Drink once for each blue eye in the room
+Papers please! Drink 1 if you don't have ID on you
+Under 5'6 or bearded? Drink 3 like a true dwarf. Both? Drink 6
+Whoever's met the most famous person gives out 4 sips
+Person with the most photos on their phone drinks 1
+Whoever's phone this is, give out 5 drinks for supporting the app :)
+Anyone wearing a watch drinks 1
+Everyone with a Samsung drinks 1
+Drink 2 if you shaved today
+Player X, name the song and artist playing right now. Wrong? Drink 3
+Everyone who drank on the last card, drink again
+Sip for each year you studied after school
+Player X, give 3 drinks to someone less drunk than you. No one? Down 6
+Player X, drink 3 if you're wearing something you bought this month
+Player X, pick someone you'd take on a road trip. You both drink 1
+Drink 3 if you believe in ghosts
+Drink 2 if you've studied more than Player X
+Drink 2 if you've slept with someone here. Drink 5 if you need to explain
+Biggest player, give out 2 sips
+Drink 1 if you've ever skinny dipped
+Drink if you've ever eaten an insect
+Drink if you 'don't dance'
+Drink 2 if you're unemployed. 4 if it's been over a year
+Drink 2 if you've met a celebrity
+Player X, drink 3 if you've been to a costume party
+Player X, drink 3 if you've never been to a casino. Boring!
+If you think you can dance, give out 2 drinks
+Drink 2 if you've never been in a fight
+Drink 1 if you've played Twister. 3 if it got sexy
+Give out a shot if you rated this app 5 stars. Love you
+Give 2 drinks if you play a sport. Drink 4 if you're bad at it
+Drink 2 if you've used a dating app. Bleak
+Give 2 drinks if you've been to a festival
+Player X, give out a shot if you've volunteered for charity
+Drink 3 if you're a virgin. Double it if you study computer science
+Bodybuilders drink 3, you can take it
+Player X, touch your nose with your tongue to give out 2
+Player X, drink for every social media app on your phone
+Drink 1 if you've fantasised about someone here. Don't explain
+Player X, drink 2 if you've lied on your CV
+Drink 1 if you arrived alone. Drink 2 if you'll leave alone
+Drink 2 if you know what League of Legends is
+Player X, name a TV show. Anyone who's seen it drinks 1
+Drink 1 if you've signed a petition this year
+Drink 1 if you like pineapple on pizza
+Drink 2 if you've ever tried to stream on Twitch
+Drink 1 if you don't want kids. Give out 2 if you do
+Player X, name a movie. Anyone who's seen it drinks 1
+Give 3 drinks if you've ever been arrested
+Give 2 drinks if you've hugged a dangerous animal (lion, tiger...)
+Drink 2 if you have more than 5 GCSEs (or equivalent)
+Player X, drink for each tattoo you have. None? Give out 2
+Drink 3 if you've slept with an ex. Double it if it's a friend's ex
+Drink if you're over 18 and still use Snapchat
+Drink 2 if you shared your Spotify Wrapped this year
+Player X, Player Y and Player Z, drink 3 if you skipped leg day this week
+Give out a drink for each night you've drunk in a row
+Drink 1 if you ever said 'No we can't!' to Bob the Builder
+Give 3 drinks if you've been thrown out of a venue
+Introverts drink 2
+Extroverts give out 2 drinks
+Drink 2 if you ever used Kik, for the emotional scars
+Player X, drink 1 for every TikTok you've been in (max 10)

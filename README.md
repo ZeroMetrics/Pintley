@@ -56,6 +56,10 @@ Years later I came back to it, this time with the help of AI, to fix the old bug
 
 You'll need the Android SDK installed; Android Studio's bundled JDK (JBR 17+) is recommended.
 
+## Contributing
+
+Want to add your own tiles? It's built to be easy — all the prompts are plain-text files in [`app/src/main/assets/tiles/`](app/src/main/assets/tiles/), one per line, **no coding needed**. Add a line, open a pull request, done. See [CONTRIBUTING.md](CONTRIBUTING.md) for the details, or just open a [tile suggestion](../../issues/new?template=new_tile.yml) and someone will add it for you.
+
 ## Please drink responsibly
 
 Pintley is meant for adults (18+/21+ depending on where you are) having fun responsibly. Know your limits, look after each other, and never pressure anyone to drink. Non-drinkers can play too — just swap the sips for something soft.

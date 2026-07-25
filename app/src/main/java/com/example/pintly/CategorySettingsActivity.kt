@@ -32,7 +32,7 @@ class CategorySettingsActivity : AppCompatActivity() {
         binding.categoriesContainer.removeAllViews()
         rows.clear()
 
-        for (cat in GameData.categories()) {
+        for (cat in GameData.categories(this)) {
             val item = ItemCategoryBinding.inflate(layoutInflater, binding.categoriesContainer, false)
             item.categoryName.text = cat.name
             item.colorSwatch.backgroundTintList =
