@@ -175,3 +175,4 @@ Drink 2 if Harry ever blocked you
 Player X, drink {3} or let Player Y slap you once
 Player X strike a pose. You must now hold that pose for 2 mins or drink {5}
 If you're less drunk than Player X, drink 2 to catch up
+If you wore crocs today drink 1. If you're wearing them now drink 3
