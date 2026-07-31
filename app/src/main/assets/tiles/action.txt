@@ -85,3 +85,7 @@ Player X, drink your body count (cap it at 10, we don't have all night)
 Player X, let someone edit your Tinder or take 2 shots. No Tinder? Give out a shot
 Player X, be Player Y's cheerleader every time they drink
 Player X, tell an offensive joke. Not offensive enough? Drink {4}
+Everyone swap seats. If you end up next to someone you started next to drink 3. You have 15s
+Everyone reveal the player they last DM'ed. That person drinks 1
+If you're less drunk than the person to your left, drink 2
+Player X, do the Macarena, if you get the moves wrong drink 3. Drink 1 if you didn't say "Hey Macarena".
