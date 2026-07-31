@@ -19,4 +19,4 @@ Player X is immune to all rules
 Player X is immune to the next 5 cards. Player Y drinks them instead
 [requires: Ghosts] Player X is the Lich King. Move any ghost between players whenever you like
 Player X, every fifth person you fist bump must drink 2
-Player X, write down a 7 letter work. The first person you can get to say it drinks 4
+Player X, write down a 7 letter work. You have 10s. The first person you can get to say it drinks 4
