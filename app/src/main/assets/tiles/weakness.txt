@@ -27,3 +27,4 @@ Player X, stay hydrated, when you drink also drink water
 Player X, when you poor a drink, it must be different to the one before
 Player X, you must tap a tap at least once every 5 mins. Forget and drink 5
 Player X, announce the presence of everyone who walks in the room. Forget and drink 2
+Player X, if you complain about drinking, drink one more sip
