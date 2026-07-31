@@ -22,3 +22,6 @@ Player X, every fifth person you fist bump must drink 2
 Player X, write down a 7 letter work. You have 10s. The first person you can get to say it drinks 4
 Player X, if you can touch someone's drink with you thumb while your fingers are over the side of the table, they must drink 2
 If anyone interrupts Player X while they're speaking, that person drinks 2
+Player X, if a prompt requires a player to pick another player, you may make them change their pick (if they didn't pick you). 3 uses
+Player X, if yours is the second name that appears in a prompt, give any drinks incurred to someone else
+Player X, if someone says a fact, you may call bullshit. If they can't prove it in 1min they drink 2
