@@ -18,3 +18,4 @@ Player X, make someone laugh and they drink 1
 Player X is immune to all rules
 Player X is immune to the next 5 cards. Player Y drinks them instead
 [requires: Ghosts] Player X is the Lich King. Move any ghost between players whenever you like
+Player X, every fifth person you fist bump must drink 2
