@@ -35,17 +35,59 @@ class MainActivity : AppCompatActivity() {
     private companion object {
         /** Chance of an Ultra Challenge on any given card (~once per game). */
         const val ULTRA_CHANCE = 0.005
+
+        /** How many cards after a bird first appears it comes back for a second player. */
+        const val REPEAT_AFTER = 25
+
+        /** Give up looking for a different player rather than spin in a one-player game. */
+        const val REPEAT_PLAYER_TRIES = 12
     }
 
     private lateinit var binding: ActivityMainBinding
 
-    /** A single drawn tile: the resolved prompt plus the category it came from. */
+    /**
+     * A single drawn tile: the resolved prompt plus the category it came from.
+     *
+     * Bird cards also carry the photo's *filename* — never the Bitmap, since [history]
+     * lives for the whole game and holding every decoded photo there would run to
+     * hundreds of megabytes.
+     */
     private data class Tile(
         val message: String,
         val category: Category,
         val clears: List<String> = emptyList(),
-        val transient: Boolean = false
+        val transient: Boolean = false,
+        /** Asset filename of the bird photo, or null on an ordinary card. */
+        val birdImage: String? = null,
+        /** The answer, worked out at draw time. */
+        val birdName: String? = null,
+        /**
+         * Mutable on purpose: flipping it on the history entry is what makes a reveal
+         * survive Back/Next while [display] stays a pure function of the tile.
+         */
+        var revealed: Boolean = false
     )
+
+    /** A bird waiting to come back round to quiz someone else. */
+    private data class PendingBird(
+        /** The unresolved prompt, so names can be drawn again for a different player. */
+        val prompt: String,
+        val image: String,
+        val category: Category,
+        val originalPlayer: String?,
+        val dueAtDraw: Int
+    )
+
+    private val pendingBirds = ArrayDeque<PendingBird>()
+
+    /** Photos not yet used this game, drawn from the end so no bird repeats. */
+    private val birdPool = mutableListOf<String>()
+
+    /**
+     * Freshly drawn cards only. Identical to `history.size` today, but scheduling off
+     * it makes it plain that stepping back and forward cannot shift a repeat.
+     */
+    private var drawCount = 0
 
     /** Working copy of the deck. Prompts are removed as they are drawn (no repeats). */
     private data class MutableCategory(
@@ -111,6 +153,9 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             .toMutableList()
+
+        birdPool.clear()
+        birdPool.addAll(BirdImages.list(this).shuffled())
     }
 
     private fun resetToStart() {
@@ -118,6 +163,9 @@ class MainActivity : AppCompatActivity() {
         historyIndex = -1
         seenCategories.clear()
         ghostCounts.clear()
+        pendingBirds.clear()
+        drawCount = 0
+        clearBirdLayout()
         updateGhostTally()
         bgAnimator?.cancel()
         bgAnimator = null
@@ -135,6 +183,17 @@ class MainActivity : AppCompatActivity() {
     private fun onNext() {
         fadeHintsAway()
 
+        // On an unrevealed bird this tap is the reveal, not an advance. Keying off
+        // what is *on screen* rather than how we got there covers the fresh-draw and
+        // Back/Next paths in one. getOrNull(-1) is null on the opening screen.
+        val shown = history.getOrNull(historyIndex)
+        if (shown?.birdImage != null && !shown.revealed) {
+            SoundManager.playPop()
+            shown.revealed = true
+            display(shown, isNew = false)
+            return
+        }
+
         // If we have stepped back, move forward through existing history first.
         if (historyIndex < history.lastIndex) {
             SoundManager.playPop()
@@ -143,9 +202,27 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // A due repeat bypasses the weighted pick entirely — at 2% a chance of being
+        // picked would turn "25 cards later" into "somewhere in the next 50".
+        val due = pendingBirds.firstOrNull()?.takeIf { drawCount + 1 >= it.dueAtDraw }
+        if (due != null) {
+            pendingBirds.removeFirst()
+            SoundManager.playPop()
+            showBirdRepeat(due)
+            return
+        }
+
         val category = pickNextCategory()
         if (category == null) {
+            // Deck's done, but a bird drawn near the end still deserves its second showing.
+            val leftover = pendingBirds.removeFirstOrNull()
+            if (leftover != null) {
+                SoundManager.playPop()
+                showBirdRepeat(leftover)
+                return
+            }
             SoundManager.playPop()
+            clearBirdLayout()
             binding.tileTypeText.text = ""
             binding.tileTypeIcon.visibility = View.GONE
             binding.messageText.text = getString(R.string.completed)
@@ -167,7 +244,51 @@ class MainActivity : AppCompatActivity() {
         val text = applyGhostMath(resolved.text, resolved.named.firstOrNull())
         applyGhostEffect(prompt, resolved.named)
 
-        val tile = Tile(text, category.category, prompt.clears, prompt.transient)
+        val bird = if (category.category.isBird) birdPool.removeLastOrNull() else null
+        val tile = Tile(
+            text, category.category, prompt.clears, prompt.transient,
+            birdImage = bird, birdName = bird?.let { BirdImages.displayName(it) }
+        )
+        drawCount++
+        history.add(tile)
+        historyIndex = history.lastIndex
+
+        // Scheduling lives only here, in the first-draw path, so a repeat can never
+        // reschedule itself.
+        if (bird != null) {
+            pendingBirds.add(
+                PendingBird(
+                    prompt.text, bird, category.category,
+                    resolved.named.firstOrNull(), drawCount + REPEAT_AFTER
+                )
+            )
+        }
+
+        display(tile, isNew = true)
+    }
+
+    /**
+     * Show a bird again, unrevealed, for someone other than the player who had it
+     * first. It reuses the stored prompt and photo, so it costs the deck nothing.
+     */
+    private fun showBirdRepeat(pending: PendingBird) {
+        var resolved = substituteNames(pending.prompt)
+        var tries = 0
+        while (pending.originalPlayer != null &&
+            resolved.named.firstOrNull() == pending.originalPlayer &&
+            tries < REPEAT_PLAYER_TRIES
+        ) {
+            resolved = substituteNames(pending.prompt)
+            tries++
+        }
+
+        val tile = Tile(
+            applyGhostMath(resolved.text, resolved.named.firstOrNull()),
+            pending.category,
+            birdImage = pending.image,
+            birdName = BirdImages.displayName(pending.image)
+        )
+        drawCount++
         history.add(tile)
         historyIndex = history.lastIndex
         display(tile, isNew = true)
@@ -188,13 +309,56 @@ class MainActivity : AppCompatActivity() {
     private fun display(tile: Tile, isNew: Boolean) {
         binding.tileTypeIcon.visibility = View.VISIBLE
         binding.tileTypeText.text = tile.category.name
-        binding.messageText.text = tile.message
+        // Unconditional, every render: applyBirdLayout writes the hidden case too, so
+        // no route through display() can leave a photo stranded on an ordinary card.
+        // Never guard this with `if (isBird)` — that is exactly the shape of bug the
+        // "Fix Ultra gradient lost on back/forward navigation" commit was about.
+        applyBirdLayout(tile)
+        binding.messageText.text =
+            if (tile.birdImage != null && tile.revealed) tile.birdName else tile.message
 
         if (tile.category.isUltra) {
             showUltraBackground(isNew)
         } else {
             showNormalBackground(ContextCompat.getColor(this, tile.category.colorRes))
         }
+    }
+
+    /**
+     * Put the photo, the credit line and the text padding into the right state for
+     * [tile] — including the ordinary-card state, where everything is cleared away.
+     */
+    private fun applyBirdLayout(tile: Tile) {
+        val file = tile.birdImage ?: run { clearBirdLayout(); return }
+
+        val metrics = resources.displayMetrics
+        // The photo gets half the screen; ask for that so the decode downsamples.
+        binding.birdImage.setImageBitmap(
+            BirdImages.bitmap(this, file, metrics.widthPixels / 2, metrics.heightPixels)
+        )
+        binding.birdImage.visibility = View.VISIBLE
+
+        // 64dp each side of a half-width column would squeeze autoSize to its 18sp floor.
+        binding.messageText.setPaddingRelative(dp(24), dp(56), dp(40), dp(56))
+
+        // The credit waits for the reveal: tidier, and it can't leak a hint.
+        val credit = BirdImages.credit(this, file)
+        if (tile.revealed && credit != null) {
+            binding.birdCredit.text = credit.toString()
+            binding.birdCredit.visibility = View.VISIBLE
+        } else {
+            binding.birdCredit.text = ""
+            binding.birdCredit.visibility = View.GONE
+        }
+    }
+
+    /** Ordinary-card state: no photo, no credit, the original padding. */
+    private fun clearBirdLayout() {
+        binding.birdImage.visibility = View.GONE
+        binding.birdImage.setImageDrawable(null)
+        binding.birdCredit.text = ""
+        binding.birdCredit.visibility = View.GONE
+        binding.messageText.setPaddingRelative(dp(64), dp(80), dp(64), dp(80))
     }
 
     private fun showNormalBackground(target: Int) {
@@ -497,9 +661,18 @@ class MainActivity : AppCompatActivity() {
         return pickWeightedCategory()
     }
 
-    /** Weighted pick among ordinary (non-Ultra) categories with a drawable prompt. */
+    /**
+     * Weighted pick among ordinary (non-Ultra) categories with a drawable prompt.
+     *
+     * Birds bow out once their photos are used up. That is gated here rather than in
+     * [availablePrompts], which should go on meaning "passes the `requires` gate".
+     */
     private fun pickWeightedCategory(): MutableCategory? {
-        val available = deck.filter { !it.category.isUltra && availablePrompts(it).isNotEmpty() }
+        val available = deck.filter {
+            !it.category.isUltra &&
+                availablePrompts(it).isNotEmpty() &&
+                (!it.category.isBird || birdPool.isNotEmpty())
+        }
         if (available.isEmpty()) return null
         val totalWeight = available.sumOf { it.weight }
         var roll = (0 until totalWeight).random()

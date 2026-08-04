@@ -35,7 +35,12 @@ data class Category(
     /** Ultra categories are drawn on a separate rare roll, not the weighted pool. */
     val isUltra: Boolean = false,
     /** Lasting effects (rules, powers, weaknesses, ghosts) shown in "What's in play". */
-    val isPersistent: Boolean = false
+    val isPersistent: Boolean = false,
+    /**
+     * Bird cards show a photo beside the prompt, take an extra tap to reveal the
+     * species, and come back once later to quiz a different player.
+     */
+    val isBird: Boolean = false
 )
 
 /**
@@ -59,28 +64,30 @@ object GameData {
         val info: String,
         val asset: String,
         val isUltra: Boolean = false,
-        val isPersistent: Boolean = false
+        val isPersistent: Boolean = false,
+        val isBird: Boolean = false
     )
 
     private val META = listOf(
-        CategoryMeta("Regular", R.color.LightPurple, 43, "If no one is named, ask everyone the question", "tiles/regular.txt"),
+        CategoryMeta("Regular", R.color.LightPurple, 42, "If no one is named, ask everyone the question", "tiles/regular.txt"),
         CategoryMeta("Action", R.color.LightRed, 18, "This is a task for whoever is named", "tiles/action.txt"),
         CategoryMeta("Rule", R.color.Gold, 4, "Rules affect everyone and stay in place until stated otherwise", "tiles/rule.txt", isPersistent = true),
         CategoryMeta("Weakness", R.color.SicklyGreen, 4, "This is a penalty that a single player holds until stated otherwise", "tiles/weakness.txt", isPersistent = true),
         CategoryMeta("Special", R.color.Violet, 3, "A player may use this once, whenever they want", "tiles/special.txt", isPersistent = true),
         CategoryMeta("Wild", R.color.ForestGreen, 1, "These are up to you, have some fun", "tiles/wild.txt"),
-        CategoryMeta("Democracy", R.color.LightBlue, 13, "Everyone close your eyes and point to who you think it is. The minority drinks", "tiles/democracy.txt"),
+        CategoryMeta("Democracy", R.color.LightBlue, 12, "Everyone close your eyes and point to who you think it is. The minority drinks", "tiles/democracy.txt"),
         CategoryMeta("Power", R.color.CrimsonRed, 3, "This is a benefit that a single player holds until stated otherwise", "tiles/power.txt", isPersistent = true),
         CategoryMeta("Ghosts", R.color.Spectral, 4, "Each ghost adds +1 to every drink that player takes. They stack up until something banishes them", "tiles/ghosts.txt", isPersistent = true),
         CategoryMeta("Elimination", R.color.Granite, 2, "Remove something from play. Feel free to do this freely, not just on these cards", "tiles/elimination.txt"),
         CategoryMeta("Would You Rather", R.color.Flamingo, 5, "Everyone close your eyes. Thumbs up for option 1, thumbs down for option 2. The minority drinks", "tiles/would_you_rather.txt"),
+        CategoryMeta("Name That Bird", R.color.BirdTeal, 2, "Guess the bird from the photo. The next tap reveals the answer", "tiles/bird.txt", isBird = true),
         CategoryMeta("Ultra Challenge", R.color.UltraDark, 1, "The rarest card of all. Two players go head to head — the loser downs their drink", "tiles/ultra_challenge.txt", isUltra = true)
     )
 
     fun categories(context: Context): List<Category> = META.map { m ->
         Category(
             m.name, m.colorRes, m.defaultWeight, m.info,
-            loadPrompts(context, m.asset), m.isUltra, m.isPersistent
+            loadPrompts(context, m.asset), m.isUltra, m.isPersistent, m.isBird
         )
     }
 

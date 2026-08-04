@@ -18,6 +18,7 @@
     <string name="got_it">Got it</string>
     <string name="previous_card">Previous card</string>
     <string name="next_card">Next card</string>
+    <string name="bird_photo">Photo of the bird to name</string>
 
     <!-- Manage players (in game) -->
     <string name="manage_players">Manage players</string>
