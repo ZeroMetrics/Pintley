@@ -67,3 +67,5 @@ Pintley is meant for adults (18+/21+ depending on where you are) having fun resp
 ## License
 
 Released under the [MIT License](LICENSE) — do what you like with it.
+
+The bird photographs in the **Name That Bird** category come from Wikimedia Commons and keep their own licences. See [CREDITS.md](CREDITS.md) for the full list of photographers, licences and source links.

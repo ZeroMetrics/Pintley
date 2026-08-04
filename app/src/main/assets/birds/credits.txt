@@ -1,0 +1,20 @@
+# Pintley bird photo credits
+# filename | photographer | licence | source URL
+# Every photo comes from Wikimedia Commons and is used unmodified apart from scaling.
+# The photographer and licence are shown in-app when the bird's name is revealed.
+# Blank lines and lines starting with # are ignored.
+
+Bearded_Vulture.jpg | Giles Laurent | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:010a_Wild_Bearded_Vulture_in_flight_at_Pfyn-Finges_(Switzerland)_Photo_by_Giles_Laurent.jpg
+Blue-footed_Booby.jpg | Ndecam | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Sula_nebouxii_-Santa_Cruz,_Galapagos_Islands,_Ecuador-8_(1).jpg
+Crested_Auklet.jpg | F. Deines, USFWS | Public domain | https://commons.wikimedia.org/wiki/File:Aethia_cristatella.jpg
+Great_Potoo.jpg | Hector Bottai | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Nyctibius_grandis_-_Great_Potoo;_Apiac%C3%A1s,_Mato_Grosso,_Brazil.jpg
+Hamerkop.jpg | Charles J. Sharp | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Hamerkop_(Scopus_umbretta)_Botswana.jpg
+Kiwi.jpg | Maungatautari Ecological Island Trust | Public domain | https://commons.wikimedia.org/wiki/File:TeTuatahianui.jpg
+Long-wattled_Umbrellabird.jpg | Hectonichus | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Cotingidae_-_Cephalopterus_penduliger.jpg
+Marabou_Stork.jpg | Charles J. Sharp | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Marabou_stork_(Leptoptilos_crumenifer).jpg
+Roseate_Spoonbill.jpg | Mwanner | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Roseate_Spoonbill_-_Myakka_River_State_Park.jpg
+Secretarybird.jpg | Sumeet Moghe | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Secretary_bird_Mara_for_WC.jpg
+Shoebill.jpg | Bob Owen | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Balaeniceps_rex_-Ueno_Zoo,_Tokyo,_Japan-8a.jpg
+Tawny_Frogmouth.jpg | JJ Harrison | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Podargus_strigoides_Bonorong.jpg
+Three-wattled_Bellbird.jpg | Noel Reynolds | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Three-wattled_Bellbird_(Procnias_tricarunculata)_(5818992683).jpg
+Vulturine_Guineafowl.jpg | Nikhil R R | CC0 | https://commons.wikimedia.org/wiki/File:Acryllium_vulturinum_431568323.jpg

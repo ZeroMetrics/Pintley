@@ -1,0 +1,25 @@
+# Pintley tiles - Name That Bird
+# One prompt per line. Blank lines and lines starting with # are ignored.
+# Use "Player X", "Player Y", "Player Z" - they become random player names.
+# Keep prompts short so they read at a glance on screen.
+# There must be more lines here than there are photos in assets/birds/, or the
+# prompts run out before the birds do and some birds never get shown.
+
+Player X, name that bird. If correct give out 3 drinks. If wrong take 3 drinks
+Player Y, name that bird. Correct and you hand out 4 drinks, wrong and you take 4
+Player Z, name that bird. Get it right and everyone else drinks 2
+Player X, name that bird. Miss it and you drink 4
+Player Y, name that bird. Correct and you choose someone to down half their drink
+Player Z, name that bird. Wrong answer costs you 2 and a ghost
+Player X, name that bird. Nail it and you give out 5 drinks
+Player Y, name that bird. Wrong and you take 3, right and Player Z takes 3
+Player Z, name that bird. Correct and you are safe from the next card
+Player X, name that bird. Every player who thinks they know it can join in, wrong guesses drink 2
+Player Y, name that bird. Wrong and everyone points at you and you drink 3
+Player Z, name that bird. Get it right and make a rule for the next 3 cards
+Player X, name that bird. Wrong and Player Y picks your punishment
+Player Y, name that bird. Correct and you skip your next drink of any size
+Player Z, name that bird. Wrong and you drink 2, then guess again for double
+Player X, name that bird. First person to shout the right name gives out 3 drinks
+Player Y, name that bird. Wrong and the group decides how many you drink, up to 5
+Player Z, name that bird. Correct and the loudest doubter drinks 4

@@ -50,23 +50,81 @@
         android:src="@drawable/ic_chevron_right"
         android:contentDescription="@string/next_card" />
 
-    <!-- Prompt text -->
-    <TextView
-        android:id="@+id/message_text"
+    <!--
+        Prompt text, with an optional bird photo beside it.
+
+        Both children are 0dp + weight 1, but LinearLayout leaves GONE children out of
+        weight distribution entirely — so with the photo hidden the text column resolves
+        to the full parent width, exactly the box match_parent used to give it, and
+        ordinary cards are unchanged.
+
+        Nothing in here is clickable, so touches fall straight through to the back/next
+        zones underneath.
+    -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:paddingHorizontal="64dp"
-        android:paddingVertical="80dp"
-        android:text="@string/begin_hint"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:lineSpacingMultiplier="1.1"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="18sp"
-        android:autoSizeMaxTextSize="40sp"
-        android:autoSizeStepGranularity="1sp"
-        android:clickable="false" />
+        android:orientation="horizontal"
+        android:clickable="false"
+        android:focusable="false">
+
+        <ImageView
+            android:id="@+id/bird_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="40dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            android:clickable="false"
+            android:focusable="false"
+            android:contentDescription="@string/bird_photo" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="false"
+            android:focusable="false">
+
+            <TextView
+                android:id="@+id/message_text"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingHorizontal="64dp"
+                android:paddingVertical="80dp"
+                android:text="@string/begin_hint"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:lineSpacingMultiplier="1.1"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="18sp"
+                android:autoSizeMaxTextSize="40sp"
+                android:autoSizeStepGranularity="1sp"
+                android:clickable="false" />
+
+            <!-- Photo credit — shown only once the bird's name is revealed. -->
+            <TextView
+                android:id="@+id/bird_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="24dp"
+                android:paddingBottom="24dp"
+                android:textColor="@color/white_70"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <!-- Category label + info badge (top centre) -->
     <LinearLayout
