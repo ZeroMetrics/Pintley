@@ -57,6 +57,10 @@ class MainActivity : AppCompatActivity() {
         val category: Category,
         val clears: List<String> = emptyList(),
         val transient: Boolean = false,
+        /** This card's [Prompt.ghosts] effect, kept so the totals can be replayed. */
+        val ghosts: String? = null,
+        /** The players that effect was resolved against, for the same reason. */
+        val ghostTargets: List<String> = emptyList(),
         /** Asset filename of the bird photo, or null on an ordinary card. */
         val birdImage: String? = null,
         /** The answer, worked out at draw time. */
@@ -107,14 +111,18 @@ class MainActivity : AppCompatActivity() {
     /** Live player list — can be edited mid-game without resetting the deck. */
     private val players = mutableListOf<String>()
 
-    /** How many ghosts each player is carrying. Each one adds +1 to their drinks. */
-    private val ghostCounts = mutableMapOf<String, Int>()
+    /**
+     * How many ghosts each player is carrying as of the card on screen — each one adds
+     * +1 to their drinks. Worked out by [refreshGhosts] rather than kept as a running
+     * total, so Back and Next move it in step with everything else.
+     */
+    private var ghostCounts: Map<String, Int> = emptyMap()
+
+    /** Corrections made by hand with the +/- buttons, in the order they were made. */
+    private val ghostAdjustments = mutableListOf<Ghosts.Adjustment>()
 
     /** A resolved prompt: the text with real names in it, plus who was named. */
     private data class Resolved(val text: String, val named: List<String>)
-
-    // Both braces escaped — Android's ICU regex engine rejects a bare closing brace.
-    private val GHOST_TOKEN = Regex("""\{(\d+)\}""")
 
     private var currentColor = Color.TRANSPARENT
     private var backgroundIsGradient = false
@@ -162,11 +170,11 @@ class MainActivity : AppCompatActivity() {
         history.clear()
         historyIndex = -1
         seenCategories.clear()
-        ghostCounts.clear()
+        ghostAdjustments.clear()
         pendingBirds.clear()
         drawCount = 0
         clearBirdLayout()
-        updateGhostTally()
+        refreshGhosts()
         bgAnimator?.cancel()
         bgAnimator = null
         currentColor = ContextCompat.getColor(this, R.color.LightPurple)
@@ -198,6 +206,7 @@ class MainActivity : AppCompatActivity() {
         if (historyIndex < history.lastIndex) {
             SoundManager.playPop()
             historyIndex++
+            refreshGhosts()
             display(history[historyIndex], isNew = false)
             return
         }
@@ -238,20 +247,23 @@ class MainActivity : AppCompatActivity() {
         // cards can't be unlocked by the very card being drawn.
         seenCategories.add(category.category.name)
 
-        val resolved = substituteNames(prompt.text)
-        // Ghost maths uses the counts as they stand *before* this card's own effect,
-        // so a card that grants ghosts doesn't also inflate its own numbers.
+        val resolved = substituteNames(prompt.text, prompt.haunted)
+        // Ghost maths uses the counts as they stand *before* this card's own effect, so
+        // a card that grants ghosts doesn't also inflate its own numbers. That falls out
+        // of the ordering here: the effect only lands once the tile is in history and
+        // refreshGhosts() replays it.
         val text = applyGhostMath(resolved.text, resolved.named.firstOrNull())
-        applyGhostEffect(prompt, resolved.named)
 
         val bird = if (category.category.isBird) birdPool.removeLastOrNull() else null
         val tile = Tile(
             text, category.category, prompt.clears, prompt.transient,
+            ghosts = prompt.ghosts, ghostTargets = resolved.named,
             birdImage = bird, birdName = bird?.let { BirdImages.displayName(it) }
         )
         drawCount++
         history.add(tile)
         historyIndex = history.lastIndex
+        refreshGhosts()
 
         // Scheduling lives only here, in the first-draw path, so a repeat can never
         // reschedule itself.
@@ -291,6 +303,7 @@ class MainActivity : AppCompatActivity() {
         drawCount++
         history.add(tile)
         historyIndex = history.lastIndex
+        refreshGhosts()
         display(tile, isNew = true)
     }
 
@@ -298,6 +311,7 @@ class MainActivity : AppCompatActivity() {
         if (historyIndex > 0) {
             SoundManager.playPop()
             historyIndex--
+            refreshGhosts()
             display(history[historyIndex], isNew = false)
         }
     }
@@ -515,10 +529,12 @@ class MainActivity : AppCompatActivity() {
             setPadding(0, dp(2), 0, dp(6))
             setTextColor(ContextCompat.getColor(this@MainActivity, R.color.brand_magenta))
             setOnClickListener {
-                val next = ((ghostCounts[player] ?: 0) + delta).coerceAtLeast(0)
-                if (next == 0) ghostCounts.remove(player) else ghostCounts[player] = next
-                count.text = next.toString()
-                updateGhostTally()
+                // Recorded against the current card rather than applied on the spot, so
+                // the replay keeps it in the right place in the running order.
+                if ((ghostCounts[player] ?: 0) + delta < 0) return@setOnClickListener
+                ghostAdjustments.add(Ghosts.Adjustment(historyIndex + 1, player, delta))
+                refreshGhosts()
+                count.text = (ghostCounts[player] ?: 0).toString()
             }
         }
         row.addView(label)
@@ -602,6 +618,8 @@ class MainActivity : AppCompatActivity() {
                 if (updated.isNotEmpty()) {
                     players.clear()
                     players.addAll(updated)
+                    // Someone just removed or renamed shouldn't be left haunting the tally.
+                    refreshGhosts()
                     Snackbar.make(binding.root, R.string.players_updated, Snackbar.LENGTH_SHORT)
                         .show()
                 }
@@ -648,11 +666,18 @@ class MainActivity : AppCompatActivity() {
     /**
      * Prompts in [mc] that can be drawn right now — i.e. ungated, or gated on a
      * category that has already come up this game.
+     *
+     * `[haunted]` is checked against live state rather than against [seenCategories],
+     * which only ever latches on: after a card banishes every ghost, "lose your ghosts"
+     * and "pass a ghost to" have nothing to work with and must drop out again.
      */
-    private fun availablePrompts(mc: MutableCategory): List<Prompt> =
-        mc.remaining.filter { p ->
-            p.requires.isEmpty() || p.requires.any { seenCategories.contains(it) }
+    private fun availablePrompts(mc: MutableCategory): List<Prompt> {
+        val anyoneHaunted = hauntedPlayers().isNotEmpty()
+        return mc.remaining.filter { p ->
+            (p.requires.isEmpty() || p.requires.any { seenCategories.contains(it) }) &&
+                (!p.haunted || anyoneHaunted)
         }
+    }
 
     /** Roll for a rare Ultra Challenge first, otherwise a normal weighted card. */
     private fun pickNextCategory(): MutableCategory? {
@@ -683,16 +708,28 @@ class MainActivity : AppCompatActivity() {
         return available.last()
     }
 
-    /** Replace "Player X/Y/Z" with real names, shuffled fresh for each draw. */
-    private fun substituteNames(message: String): Resolved {
+    /**
+     * Replace "Player X/Y/Z" with real names, shuffled fresh for each draw.
+     *
+     * [preferHaunted] puts the players carrying ghosts at the front of the queue, so a
+     * card that banishes, passes or swaps ghosts lands on someone who has some. Player X
+     * is the one that matters — Y and Z fall through to everybody else, which is what
+     * "pass a ghost to Player Y" wants.
+     */
+    private fun substituteNames(message: String, preferHaunted: Boolean = false): Resolved {
         if (players.isEmpty()) return Resolved(message, emptyList())
-        val shuffled = players.shuffled()
+        val pool = if (preferHaunted) {
+            val (haunted, rest) = players.partition { (ghostCounts[it] ?: 0) > 0 }
+            haunted.shuffled() + rest.shuffled()
+        } else {
+            players.shuffled()
+        }
         val placeholders = listOf("Player X", "Player Y", "Player Z")
         val named = mutableListOf<String>()
         var result = message
         placeholders.forEachIndexed { index, placeholder ->
             if (result.contains(placeholder)) {
-                val name = shuffled[index % shuffled.size]
+                val name = pool[index % pool.size]
                 result = result.replace(placeholder, name)
                 named.add(name)
             }
@@ -700,57 +737,34 @@ class MainActivity : AppCompatActivity() {
         return Resolved(result, named)
     }
 
-    /**
-     * Numbers written as {2} in a tile are drinks the named player takes, so their
-     * ghosts get added: 2 drinks with 2 ghosts shows as 4. Untagged numbers (push-ups,
-     * seconds, drinks handed to other people) are deliberately left alone.
-     */
-    private fun applyGhostMath(text: String, player: String?): String {
-        val bonus = player?.let { ghostCounts[it] } ?: 0
-        return GHOST_TOKEN.replace(text) { m ->
-            (m.groupValues[1].toInt() + bonus).toString()
-        }
-    }
+    /** [text] with [player]'s ghosts added to its {n} numbers — see [Ghosts.applyMath]. */
+    private fun applyGhostMath(text: String, player: String?): String =
+        Ghosts.applyMath(text, player?.let { ghostCounts[it] } ?: 0)
 
-    /** Apply a card's [Prompt.ghosts] effect to the players it named. */
-    private fun applyGhostEffect(prompt: Prompt, named: List<String>) {
-        // distinct(): with few players the same name can fill both X and Y, and
-        // nobody should be haunted twice by one card.
-        val targets = named.distinct()
-        when (val effect = prompt.ghosts?.lowercase()) {
-            null -> return
-            "clearall" -> ghostCounts.clear()
-            "clear" -> targets.forEach { ghostCounts.remove(it) }
-            "transfer" -> if (targets.size >= 2) {
-                val from = targets[0]
-                val held = ghostCounts[from] ?: 0
-                if (held > 0) {
-                    setGhosts(from, held - 1)
-                    setGhosts(targets[1], (ghostCounts[targets[1]] ?: 0) + 1)
-                }
-            }
-            "swap" -> if (targets.size >= 2) {
-                val (a, b) = targets[0] to targets[1]
-                val countA = ghostCounts[a] ?: 0
-                val countB = ghostCounts[b] ?: 0
-                setGhosts(a, countB)
-                setGhosts(b, countA)
-            }
-            else -> effect.toIntOrNull()?.let { amount ->
-                targets.forEach { setGhosts(it, (ghostCounts[it] ?: 0) + amount) }
-            }
-        }
+    /**
+     * Work the ghost totals out again for the card on screen and redraw the tally. Call
+     * this after anything that moves [historyIndex] or adds a correction.
+     */
+    private fun refreshGhosts() {
+        ghostCounts = Ghosts.replay(
+            history.map { Ghosts.Effect(it.ghosts, it.ghostTargets) },
+            ghostAdjustments,
+            historyIndex + 1
+        )
         updateGhostTally()
     }
 
-    private fun setGhosts(player: String, count: Int) {
-        if (count <= 0) ghostCounts.remove(player) else ghostCounts[player] = count
-    }
+    /**
+     * Players still in the game carrying at least one ghost. Someone dropped from the
+     * player list keeps their count in [ghostCounts] — so re-adding them brings it back
+     * — but they stop showing up anywhere until they do.
+     */
+    private fun hauntedPlayers(): List<String> = players.filter { (ghostCounts[it] ?: 0) > 0 }
 
     private fun updateGhostTally() {
-        val haunted = ghostCounts.filterValues { it > 0 }
+        val haunted = hauntedPlayers()
         binding.ghostTally.text = if (haunted.isEmpty()) "" else
-            haunted.entries.joinToString("   ") { "👻 ${it.key} ${it.value}" }
+            haunted.joinToString("   ") { "👻 $it ${ghostCounts[it]}" }
     }
 
     private fun enableImmersiveMode() {
