@@ -2,6 +2,7 @@ package com.example.pintly
 
 import android.content.Context
 import androidx.annotation.ColorRes
+import androidx.annotation.VisibleForTesting
 
 /**
  * A single tile. Directives can be written at the start of a line in the tile files:
@@ -9,6 +10,7 @@ import androidx.annotation.ColorRes
  *     [requires: Power] All Powers are out of play      <- only after a Power has come up
  *     [clears: Power]   All Powers are out of play      <- removes Powers from "What's in play"
  *     [transient]       Everyone drinks their ghost count <- a one-off, don't list it
+ *     [haunted]         Player X, you have been cleansed  <- needs a player who has ghosts
  *
  * Several categories mean "any one of these will do".
  */
@@ -17,8 +19,17 @@ data class Prompt(
     val requires: List<String> = emptyList(),
     val clears: List<String> = emptyList(),
     val transient: Boolean = false,
-    /** "1"/"2"/"3" to give ghosts to the named players, "clear", or "clearall". */
-    val ghosts: String? = null
+    /**
+     * "1"/"2"/"3" to give that many ghosts to the named players, "clear" (the named
+     * players lose theirs), "clearall" (everyone does), "transfer" (one ghost moves from
+     * the first named player to the second) or "swap" (the two exchange counts).
+     */
+    val ghosts: String? = null,
+    /**
+     * The card only makes sense against someone already haunted, so it is held back
+     * until somebody is, and its names are drawn from the haunted players first.
+     */
+    val haunted: Boolean = false
 )
 
 /**
@@ -104,12 +115,14 @@ object GameData {
         emptyList()
     }
 
-    private fun parseLine(line: String): Prompt {
+    @VisibleForTesting
+    internal fun parseLine(line: String): Prompt {
         var rest = line
         val requires = mutableListOf<String>()
         val clears = mutableListOf<String>()
         var transient = false
         var ghosts: String? = null
+        var haunted = false
 
         while (true) {
             val match = DIRECTIVE.find(rest) ?: break
@@ -120,11 +133,12 @@ object GameData {
                 "clears" -> clears.addAll(values)
                 "transient" -> transient = true
                 "ghosts" -> ghosts = raw
+                "haunted" -> haunted = true
                 // Unknown directive: leave the line untouched rather than mangle it.
-                else -> return Prompt(rest, requires, clears, transient, ghosts)
+                else -> return Prompt(rest, requires, clears, transient, ghosts, haunted)
             }
             rest = rest.substring(match.range.last + 1).trim()
         }
-        return Prompt(rest.trim(), requires, clears, transient, ghosts)
+        return Prompt(rest.trim(), requires, clears, transient, ghosts, haunted)
     }
 }

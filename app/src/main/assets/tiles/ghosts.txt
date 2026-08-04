@@ -15,6 +15,10 @@
 # [ghosts: transfer] moves one ghost from the first named player to the second.
 # [ghosts: swap] swaps the two named players' counts.
 #
+# [haunted] marks a card that needs a victim: it is held back until somebody actually
+# has ghosts, and Player X is then drawn from the haunted players. Use it on anything
+# that takes ghosts away, moves them, or makes someone drink them.
+#
 # Balance: for every 1 banishing card there should be roughly
 # 3 one-ghost cards, 2 two-ghost cards and 1 three-ghost card.
 
@@ -37,11 +41,11 @@
 [ghosts: 3] Player X, you are cursed. Take 3 ghosts
 
 # --- Banishing ---
-[requires: Ghosts][clears: Ghosts][ghosts: clearall] Sunrise! Every ghost is banished from the game
-[requires: Ghosts][transient][ghosts: clear] Player X, you have been cleansed. Lose all your ghosts
+[haunted][clears: Ghosts][ghosts: clearall] Sunrise! Every ghost is banished from the game
+[haunted][transient][ghosts: clear] Player X, you have been cleansed. Lose all your ghosts
 
 # --- Moving them around / making them hurt ---
-[requires: Ghosts][transient][ghosts: transfer] Player X, pass a ghost to Player Y
-[requires: Ghosts][transient][ghosts: swap] Player X, swap ghosts with Player Y
-[requires: Ghosts][transient] Player X, drink your ghost count
-[requires: Ghosts][transient] Everyone drinks their ghost count
+[haunted][transient][ghosts: transfer] Player X, pass a ghost to Player Y
+[haunted][transient][ghosts: swap] Player X, swap ghosts with Player Y
+[haunted][transient] Player X, drink {0}, one for every ghost on your back
+[haunted][transient] Everyone drinks their ghost count
