@@ -7,6 +7,7 @@ Player X, give advice to someone here without naming them. Refuse? Drink {2}
 Player X, name your biggest turn-off or drink {3}
 Player X, you control the music. Play a bad song and drink {1}
 FREEZE! Player X, toss a coin. If it lands in a cup, they down it
+Player X, describe the worst party you have been to or drink {5}
 FREEZE! Whoever has the least left, finish your drink
 Least drunk player: the group decides how much you drink
 Player X, pick someone. Decide how much you both drink
